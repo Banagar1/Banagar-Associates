@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Banagar Associates</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../index.css">
+    
+    <style>
+        :root {
+    --bg-deep-base: #0a0c10;
+    --bg-dark-midnight: #0b0e14;
+    --bg-card-surface: #131a26;
+    --accent-gold: #007ACC;
+    --text-slate-muted: #8e99a8;
+    
+    /* 📱 Fluid Mobile Tokens */
+    --timeline-spine-left: 50%;
+    --timeline-node-left: 50%;
+    --timeline-transform: translateX(-50%);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-deep-base);
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* 👑 Typography Restored */
+.font-serif { font-family: 'Playfair Display', serif; }
+.text-gold { color: var(--accent-gold) !important; }
+.text-light-muted { color: var(--text-slate-muted); }
+.tracking-widest { letter-spacing: 0.2em; }
+.tracking-wide { letter-spacing: 0.08em; }
+.fs-7 { font-size: 0.85rem !important; }
+.fs-8 { font-size: 0.75rem !important; }
+
+/* ✨ Luxury Gold Radial Aurora Mesh Overlay */
+.hero-aurora-banner {
+    background-image: url("../assets/images/lawn thumb.png");
+    background-size: cover;
+    background-position: center;
+    padding: 140px 0 60px 0;
+    text-align: center;
+}
+
+.section-tag-pill {
+    background-color: rgba(207, 168, 97, 0.05);
+    border: 1px solid rgba(207, 168, 97, 0.2);
+    color: var(--accent-gold);
+    font-size: 0.75rem;
+    padding: 6px 16px;
+    border-radius: 30px;
+    display: inline-block;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+/* Asymmetric Image Collage Presentation Layer */
+.collage-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+.collage-main {
+    grid-column: span 2;
+    border-radius: 0px;
+    overflow: hidden;
+    height: 260px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+}
+.collage-sub {
+    border-radius: 0px;
+    overflow: hidden;
+    height: 140px;
+    object-fit: cover;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Tab Switch Selection Systems */
+.custom-tab-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+    padding: 8px 20px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    border-radius: 0px;
+    white-space: nowrap;
+}
+.custom-tab-btn.active, .custom-tab-btn:hover {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: #0a0c10 !important;
+    font-weight: 500;
+}
+
+.gold-action-btn {
+    background: var(--accent-gold);
+    color: #0a0c10 !important;
+    border: 1px solid var(--accent-gold);
+    padding: 12px 28px;
+    font-weight: 600;
+    border-radius: 0px;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+.gold-action-btn:hover {
+    background: transparent;
+    color: var(--accent-gold) !important;
+}
+
+/* Fixed Navigation Bar Styling */
+.navbar {
+    background-color: var(--bg-dark-midnight) !important;
+    border-bottom: 1px solid rgba(207, 168, 97, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.nav-link {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.7) !important;
+    transition: color 0.3s ease;
+}
+.nav-link:hover, .nav-link.active { color: var(--accent-gold) !important; }
+
+/* 🔄 Dotted Alternating Timeline Track System */
+.center-split-timeline {
+    position: relative;
+    padding: 60px 0;
+}
+.center-split-timeline::before {
+    content: '';
+    position: absolute;
+    left: var(--timeline-spine-left);
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(207, 168, 97, 0.25);
+    transform: var(--timeline-transform);
+}
+.timeline-node-point {
+    position: absolute;
+    left: var(--timeline-node-left);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg-deep-base);
+    border: 2px solid var(--accent-gold);
+    transform: translate(-50%, 24px);
+    z-index: 2;
+    box-shadow: 0 0 10px rgba(207, 168, 97, 0.4);
+}
+.timeline-row-block {
+    margin-bottom: 50px;
+    position: relative;
+}
+.timeline-divider-line {
+    position: absolute;
+    top: 28px;
+    width: calc(50% - 20px);
+    border-top: 2px dotted rgba(207, 168, 97, 0.2);
+    z-index: 1;
+}
+.timeline-row-block:nth-child(odd) .timeline-divider-line { right: 50%; }
+.timeline-row-block:nth-child(even) .timeline-divider-line { left: 50%; }
+
+.timeline-card {
+    background-color: var(--bg-card-surface);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 0px;
+    transition: border-color 0.3s ease;
+}
+.timeline-card:hover {
+    border-color: rgba(207, 168, 97, 0.25);
+}
+
+/* Structural Layout Footer Modules */
+.footer-section {
+    background-color: var(--bg-dark-midnight) !important;
+    border-top: 1px solid rgba(207, 168, 97, 0.1);
+}
+.footer-map-container {
+    border: 1px solid rgba(207, 168, 97, 0.15);
+    width: 100%;
+}
+.footer-map-container iframe { filter: grayscale(1) invert(0.92) contrast(1.1) brightness(0.95); width: 100%; }
+.sub-footer-links a { color: var(--text-slate-muted); text-decoration: none; transition: color 0.2s ease; }
+.sub-footer-links a:hover { color: #ffffff !important; }
+
+.fade-content {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.show-content {
+    opacity: 1;
+}
+
+/* 📱 ---------------- MOBILE RESPONSIVE QUERIES ---------------- */
+
+@media (max-width: 991.98px) {
+    :root {
+        /* Shift spine and nodes cleanly to the left edge on tablets & mobile screens */
+        --timeline-spine-left: 16px;
+        --timeline-node-left: 16px;
+        --timeline-transform: none;
+    }
+    .center-split-timeline {
+        padding: 40px 0;
+    }
+    .center-split-timeline::before {
+        transform: none;
+    }
+    .timeline-node-point {
+        left: 16px !important;
+        transform: translateY(0) !important;
+        top: 24px;
+    }
+    .timeline-divider-line { 
+        display: none !important; 
+    }
+    .timeline-row-block {
+        margin-bottom: 35px;
+        padding-left: 40px; /* Add margin area so cards clear the left timeline spine line */
+    }
+    .timeline-row-block .text-lg-end { 
+        text-align: left !important; 
+    }
+    .timeline-card.text-lg-end {
+        text-align: left !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .hero-aurora-banner {
+        padding: 110px 0 45px 0;
+    }
+    .display-4 {
+        font-size: 2.25rem !important;
+    }
+    .display-5 {
+        font-size: 2.0rem !important;
+    }
+    
+    /* Enables a clean horizontal sliding tab track on tiny mobile viewports */
+    .d-flex.gap-2.mb-4 {
+        overflow-x: auto;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+    }
+    .custom-tab-btn {
+        padding: 6px 16px;
+        font-size: 0.8rem;
+    }
+    
+    .collage-main {
+        height: 200px;
+    }
+    .collage-sub {
+        height: 100px;
+    }
+    
+    /* Fixes layout gaps for contact widgets on thin viewports */
+    .d-flex.align-items-center.gap-4 {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 20px !important;
+    }
+    .gold-action-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <!-- Transparent Fixed Header Area -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <img src="../assets/images/logo-01.png" alt="Banagar Associates Logo" style="height: 42px;">
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-3">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.html#venues">VENUES</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.html#gallery">GALLERY</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.html#trust">WHY TRUST US</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../frontend/contact.html">CONTACT</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="../frontend/about.html">ABOUT US</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="tel:+919945899909" class="text-white text-decoration-none fs-7 d-none d-xl-inline tracking-wide"><i class="bi bi-telephone text-gold me-2"></i>CALL US</a>
+                    <a href="../frontend/booking.html" class="btn btn-primary px-4 py-2 fw-semibold tracking-wide rounded-0">BOOK NOW</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Glowing Luxury Gold Section Banner -->
+    <div class="hero-aurora-banner">
+        <div class="container">
+            <h1 class="display-4 font-serif text-white fw-light mb-3">About Us</h1>
+            <div class="mx-auto bg-gold mb-2" style="width: 60px; height: 1px; opacity: 0.6; background-color: var(--accent-gold);"></div>
+            <p class="text-light fs-6 max-w-xl mx-auto fw-light">Creating memorable celebrations through exceptional event spaces and quality facilities.</p>
+        </div>
+    </div>
+
+    <!-- Content Integration Split Section Layout -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                
+                <!-- Left Hand Side Asymmetric Image Cluster System -->
+                <div class="col-lg-6" data-animate="fadeInLeft">
+                    <div class="collage-container">
+                        <img src="../assets/images/mrg.png" class="collage-main w-100" alt="Banagar Premium Main Campus">
+                        <img src="../assets/images/lawn&mrg.png" class="collage-sub" alt="Banagar Setup View">
+                        <img src="../assets/images/lawn thumb.png" class="collage-sub" alt="Banagar Open Lawns Area">
+                    </div>
+                </div>
+
+                <div class="col-lg-6" data-animate="fadeInRight">
+    <span class="section-tag-pill mb-3">THE BANAGAR LEGACY</span>
+    <h2 class="font-serif text-gold display-5 fw-light mb-4 lh-sm">Welcome to Banagar Association</h2>
+    
+    <!-- 🎛️ Tab Controls -->
+    <div class="d-flex gap-2 mb-4">
+        <button class="custom-tab-btn active" data-target="tab-legacy">Our Legacy</button>
+        <button class="custom-tab-btn" data-target="tab-vision">Our Vision</button>
+        <button class="custom-tab-btn" data-target="tab-values">Our Core Values</button>
+    </div>
+
+    <!-- 🔄 Fixed Height Container to prevent layout jumps during shifts -->
+    <div style="min-height: 180px;">
+        <!-- Panel 1: Our Legacy (Active) -->
+        <div id="tab-legacy" class="about-tab-panel fade-content show-content">
+            <p class="text-light-muted fs-7 fw-light lh-lg mb-4">
+                Banagar Association is committed to providing premium event spaces for families, organizations, and businesses looking for the perfect venue for their celebrations. Located in a peaceful environment, Banagar Lawns offers a spacious open area, modern facilities, guest accommodation, and a comfortable atmosphere suitable for events of all sizes.
+            </p>
+            <p class="text-light-muted fs-7 fw-light lh-lg mb-0">
+                Whether you are planning a wedding, reception, engagement ceremony, cultural event, birthday celebration, or corporate gathering, Banagar Lawns is the ideal destination for making every occasion special.
+            </p>
+        </div>
+
+        <!-- Panel 2: Our Vision (Hidden) -->
+        <div id="tab-vision" class="about-tab-panel fade-content d-none">
+            <p class="text-light-muted fs-7 fw-light lh-lg mb-4">
+                Our vision is to be the premier destination for life's most cherished milestones, setting the benchmark for premium hospitality and sophisticated gathering spaces. We continuously innovate our infrastructure to turn celebrations into pristine, cinematic, and timeless memories.
+            </p>
+        </div>
+
+        <!-- Panel 3: Our Core Values (Hidden) -->
+        <div id="tab-values" class="about-tab-panel fade-content d-none">
+            <p class="text-light-muted fs-7 fw-light lh-lg mb-4">
+                We operate with <strong>100% Contract Integrity</strong>, keeping transparency at the forefront of every client relationship. Our team values exceptional customer care, structural safety, environmental cleanliness, and a frictionless experience from booking to execution.
+            </p>
+        </div>
+    </div>
+
+    <!-- Permanent Feature Checkgrid Matrix -->
+    <div class="row g-3 mb-5 fs-7 fw-light text-light-muted border-top border-secondary border-opacity-10 pt-4">
+        <div class="col-sm-6 d-flex align-items-center gap-2">
+            <i class="bi bi-check-circle text-gold"></i> 15+ Years of Excellence
+        </div>
+        <div class="col-sm-6 d-flex align-items-center gap-2">
+            <i class="bi bi-check-circle text-gold"></i> 2,500+ Events Executed
+        </div>
+        <div class="col-sm-6 d-flex align-items-center gap-2">
+            <i class="bi bi-check-circle text-gold"></i> 15K Sq. Ft. Canvas Space
+        </div>
+        <div class="col-sm-6 d-flex align-items-center gap-2">
+            <i class="bi bi-check-circle text-gold"></i> 100% Contract Integrity
+        </div>
+    </div>
+
+    <!-- Permanent Direct Contact Callout Bar Component -->
+    <div class="d-flex align-items-center gap-4">
+        <a href="../index.html#venues" class="gold-action-btn text-decoration-none py-3">EXPLORE OUR VENUES</a>
+        <div class="d-flex align-items-center gap-2">
+            <div class="bg-white bg-opacity-5 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.05);">
+                <i class="bi bi-telephone text-gold"></i>
+            </div>
+            <div>
+                <small class="text-light-muted d-block" style="font-size: 0.7rem;">Call Us Now</small>
+                <a href="tel:+919945899909" class="text-white text-decoration-none fw-medium fs-7 tracking-wide">+91 9945899909</a>
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alternating Chronological Segment Map Layout -->
+    <section class="py-5" style="background-color: #0b0e14;">
+        <div class="container py-4">
+            
+            <div class="text-center mb-5">
+                <span class="section-tag-pill mb-2">HISTORICAL MAP</span>
+                <h2 class="font-serif text-white fw-light display-6">Our Historical Journey</h2>
+                <div class="mx-auto bg-gold mt-3" style="width: 40px; height: 1px; opacity: 0.4; background-color: var(--accent-gold);"></div>
+            </div>
+
+            <div class="center-split-timeline">
+                
+                <!-- Step block item 2010 -->
+                <div class="timeline-row-block row g-0 align-items-start">
+                    <div class="timeline-node-point"></div>
+                    <div class="timeline-divider-line"></div>
+                    <div class="col-lg-5 pe-lg-5 text-lg-end order-1">
+                        <span class="text-gold font-serif fw-light h4 d-block mb-1">2010</span>
+                        <h4 class="text-white text-uppercase tracking-wide mb-2 fs-7 fw-medium">The Architectural Foundation</h4>
+                        <div class="timeline-card p-4 text-start mt-2">
+                            <p class="text-light-muted fs-7 mb-0 lh-base fw-light">Banagar Associates launches its structural blueprint with a clear operational promise: introducing flawless, transparent management standards into traditional open-air lawn environments.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 order-2"></div>
+                </div>
+
+                <!-- Step block item 2018 -->
+                <div class="timeline-row-block row g-0 align-items-end">
+                    <div class="timeline-node-point"></div>
+                    <div class="timeline-divider-line"></div>
+                    <div class="col-lg-5 order-1"></div>
+                    <div class="col-lg-5 ps-lg-5 order-2">
+                        <span class="text-gold font-serif fw-light h4 d-block mb-1">2018</span>
+                        <h4 class="text-white text-uppercase tracking-wide mb-2 fs-7 fw-medium">The Grand Heritage Unveiling</h4>
+                        <div class="timeline-card p-4 mt-2">
+                            <p class="text-light-muted fs-7 mb-0 lh-base fw-light">To accommodate weather variations, we expanded into climate-controlled indoor designs by engineering the air-conditioned Grand Heritage Banquet Hall with specialized staging architecture.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step block item 2026 -->
+                <div class="timeline-row-block row g-0 align-items-start">
+                    <div class="timeline-node-point"></div>
+                    <div class="timeline-divider-line"></div>
+                    <div class="col-lg-5 pe-lg-5 text-lg-end order-1">
+                        <span class="text-gold font-serif fw-light h4 d-block mb-1">2026</span>
+                        <h4 class="text-white text-uppercase tracking-wide mb-2 fs-7 fw-medium">The Smart Digital Integration</h4>
+                        <div class="timeline-card p-4 text-start mt-2">
+                            <p class="text-light-muted fs-7 mb-0 lh-base fw-light">Migrated operations into unified front-end systems, unlocking real-time transparency calendars, simplified query funnels, and data-protected portal layouts for clients globally.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 order-2"></div>
+                </div>
+
+                <!-- Step block item 2027 -->
+                <div class="timeline-row-block row g-0 align-items-start">
+                    <div class="timeline-node-point"></div>
+                    <div class="timeline-divider-line"></div>
+                    <div class="col-lg-5 order-1"></div>
+                    <div class="col-lg-5 ps-lg-5 order-2">
+                        <span class="text-gold font-serif fw-light h4 d-block mb-1">2027</span>
+                        <h4 class="text-white text-uppercase tracking-wide mb-2 fs-7 fw-medium">Banagar Marriage Hall Expansion</h4>
+                        <div class="timeline-card p-4 mt-2">
+                            <p class="text-light-muted fs-7 mb-0 lh-base fw-light">Banagar Association is developing a modern Marriage Hall that will soon be available for premium weddings, receptions, family functions, and special events.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Structural Layout Footer Module -->
+    <footer class="footer-section pt-5 pb-3">
+        <div class="container pt-4">
+            <div class="row g-4 mb-5">
+                
+                <div class="col-sm-6 col-lg-3">
+                    <div class="footer-brand mb-4">
+                        <img src="../assets/images/logo-01.png" alt="Banagar Associates Logo" class="footer-logo mb-2" onerror="this.style.display='none'; document.getElementById('fallback-logo').classList.remove('d-none');">
+                        <div id="fallback-logo" class="d-flex align-items-center d-none">
+                            <div class="brand-logo me-2 text-gold">B</div>
+                            <span class="fw-bold tracking-wide text-white fs-5 font-serif">BANAGAR</span>
+                        </div>
+                    </div>
+                    <p class="text-light-muted fs-7 lh-lg pe-xl-4 footer-desc">
+                        Creating memorable celebrations through exceptional event spaces and quality facilities. Premier venue for weddings and celebrations. Creating unforgettable moments since 2010.
+                    </p>
+                </div>
+
+                <div class="col-sm-6 col-lg-2 offset-lg-1">
+                    <h4 class="h5 text-white font-serif mb-4 fw-normal tracking-wide">Quick Links</h4>
+                    <ul class="list-unstyled footer-links d-grid gap-3 fs-7">
+                        <li><a href="../index.html" class="text-light-muted text-decoration-none">Home</a></li>
+                        <li><a href="#about" class="text-light-muted text-decoration-none">About Us</a></li>
+                        <li><a href="../index.html#venues" class="text-light-muted text-decoration-none">Banagar Lawns</a></li>
+                        <li><a href="../index.html#gallery" class="text-light-muted text-decoration-none">Gallery</a></li>
+                        <li><a href="../frontend/contact.html" class="text-light-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <h4 class="h5 text-white font-serif mb-4 fw-normal tracking-wide">Contact Info</h4>
+                    <ul class="list-unstyled footer-contact-list d-grid gap-3 fs-7 text-light-muted">
+                        <li class="d-flex align-items-start gap-3">
+                            <i class="bi bi-geo-alt text-gold mt-1"></i>
+                            <span>94HQ+C42 Banagar estate, Rajnagar, Gopanakoppa, Hubballi<br>Karnataka 580023</span>
+                        </li>
+                        <li class="d-flex align-items-center gap-3">
+                            <i class="bi bi-telephone text-gold"></i>
+                            <a href="tel:+919945899909" class="text-decoration-none text-light-muted">+91 9945899909</a>
+                        </li>
+                        <li class="d-flex align-items-center gap-3">
+                            <i class="bi bi-envelope text-gold"></i>
+                            <a href="mailto:info@banagar.com" class="text-decoration-none text-light-muted">info@banagar.com</a>
+                        </li>
+                        <li class="d-flex align-items-center gap-3">
+                            <i class="bi bi-clock text-gold"></i>
+                            <span>Mon - Sun: 9:00 AM - 8:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <h4 class="h5 text-white font-serif mb-4 fw-normal tracking-wide">Find Us</h4>
+                    <div class="footer-map-container position-relative overflow-hidden shadow">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3846.9724003925885!2d75.138004!3d15.377981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb8d1003dc4c92d%3A0x5009ed865c5d8867!2sBanagar%20Lawns!5e0!3m2!1sen!2sin!4v1784303556619!5m2!1sen!2sin" 
+                        width="600" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="strict-origin-when-cross-origin">
+                        </iframe>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="border-secondary border-opacity-10 my-4">
+
+            <div class="row align-items-center fs-7 text-white g-3">
+                <div class="col-md-4 text-center text-md-start">
+                    <p class="mb-0">&copy; 2026 Banagar Associates. All rights reserved.</p>
+                </div>
+                <div class="col-md-4 text-center text-md-center">
+                    <p class="mb-0">Designed & Developed by NeuNet Tech Solutions</p>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <div class="d-flex justify-content-center justify-content-md-end gap-3 sub-footer-links">
+                        <a href="adminlogin.html" class="text-white text-decoration-none">Admin</a>
+                        <a href="../privacy.html" class="text-white text-decoration-none">Privacy Policy</a>
+                        <a href="../terms.html" class="text-white text-decoration-none">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const lazyObserver = new IntersectionObserver((elements) => {
+                elements.forEach(node => {
+                    if(node.isIntersecting) {
+                        node.target.classList.add('animate__animated', node.target.dataset.animate);
+                        lazyObserver.unobserve(node.target);
+                    }
+                });
+            }, { threshold: 0.05 });
+            document.querySelectorAll('[data-animate]').forEach(el => lazyObserver.observe(el));
+        });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const tabButtons = document.querySelectorAll('.custom-tab-btn');
+    const tabPanels = document.querySelectorAll('.about-tab-panel');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const targetId = this.getAttribute('data-target');
+            const targetPanel = document.getElementById(targetId);
+
+            // If the selected tab is already visible, stop execution
+            if (this.classList.contains('active')) return;
+
+            // 1. Remove active state from all buttons
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            // 2. Hide active panels smoothly using opacity fade out
+            tabPanels.forEach(panel => {
+                if (!panel.classList.contains('d-none')) {
+                    panel.classList.remove('show-content');
+                    setTimeout(() => {
+                        panel.classList.add('d-none');
+                        
+                        // 3. Reveal target panel after fade out completes
+                        targetPanel.classList.remove('d-none');
+                        setTimeout(() => {
+                            targetPanel.classList.add('show-content');
+                        }, 50);
+                    }, 300);
+                }
+            });
+        });
+    });
+});
+
+    </script>
+    <script src="../api-integration.js"></script>
+</body>
+</html>

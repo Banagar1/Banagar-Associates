@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Control Center | Banagar Associates</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <!-- 🔒 FIXED NAVIGATION SIDEBAR RAIL -->
+    <aside class="admin-sidebar">
+        <div class="admin-brand">
+            <div class="brand-logo-frame">
+                <img src="../assets/images/logo-01.png" alt="Banagar Associates Logo" class="admin-logo-img">
+            </div>
+        </div>
+        
+        <div class="nav-menu">
+            <span class="px-4 text-muted fs-8 tracking-widest text-uppercase mb-2 d-block">Modules</span>
+            <a class="admin-nav-link active-tab" onclick="switchView('overview')"><i class="bi bi-grid-1x2"></i> Overview</a>
+            <a class="admin-nav-link" onclick="switchView('bookings')"><i class="bi bi-journal-check"></i> Bookings</a>
+            <a class="admin-nav-link" onclick="switchView('calendar')"><i class="bi bi-calendar-range"></i> Calendar</a>
+            <a class="admin-nav-link" onclick="switchView('enquiries')"><i class="bi bi-envelope"></i> Enquiries </a>
+            <a class="admin-nav-link" onclick="switchView('gallery')"><i class="bi bi-images"></i> Manage Gallery</a>
+            <a class="admin-nav-link" onclick="switchView('completed')"><i class="bi bi-journal-check"></i> Completed Bookings</a>
+        </div>
+
+        <div class="sidebar-footer">
+            <a href="#" class="admin-nav-link" data-bs-toggle="modal" data-bs-target="#profileModal"><i class="bi bi-person-gear"></i>  Admin Profile</a>
+            <a id="btn-secure-logout" class="admin-nav-link text-danger" style="cursor: pointer;"><i class="bi bi-box-arrow-left"></i> Secure Logout</a>
+        </div>
+    </aside>
+    
+
+    <!-- 🔒 LOCKED MAIN VIEWPORT CANVAS -->
+    <main class="admin-main-content">
+        
+        <!-- MODULE 1: OVERVIEW PANEL -->
+        <section id="view-overview" class="view-panel active-view">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h4 text-white fw-light mb-0">Admin Overview</h2>
+                <span class="text-muted fs-8">Last Updated: Just now</span>
+            </div>
+
+            <!-- Dashboard Analytics Metrics Row -->
+            <div class="row mb-4 g-3">
+                <div class="col-md-4 col-lg-2">
+                    <div class="card bg-dark text-white h-100 p-3 border border-secondary border-opacity-25 shadow-sm rounded-3">
+                        <h6 class="text-muted fs-7 text-uppercase mb-2">Total Bookings</h6>
+                        <h3 id="stat-total-bookings" class="mb-0 fw-bold fs-6">142</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card bg-dark text-white h-100 p-3 border border-secondary border-opacity-25 shadow-sm rounded-3">
+                        <h6 class="text-muted fs-7 text-uppercase mb-2">Completed Bookings</h6>
+                        <h3 id="stat-confirmed-bookings" class="text-success mb-0 fw-bold fs-6">98</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card bg-dark text-white h-100 p-3 border border-secondary border-opacity-25 shadow-sm rounded-3">
+                        <h6 class="text-muted fs-7 text-uppercase mb-2">Pending Bookings</h6>
+                        <h3 id="stat-pending-bookings" class="text-warning mb-0 fw-bold fs-6">04</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card bg-dark text-white h-100 p-3 border border-secondary border-opacity-25 shadow-sm rounded-3">
+                        <h6 class="text-muted fs-7 text-uppercase mb-2">Total Enquiries</h6>
+                        <h3 id="stat-total-enquiries" class="text-info mb-0 fw-bold fs-6">850</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="col-inner-card card bg-dark text-white h-100 p-3 border border-secondary border-opacity-25 shadow-sm rounded-3">
+                        <h6 class="text-muted fs-7 text-uppercase mb-2">New Enquiries</h6>
+                        <h3 id="stat-new-enquiries" class="text-primary mb-0 fw-bold fs-6">12</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <div class="card bg-dark text-white h-100 p-3 border border-secondary border-opacity-25 shadow-sm rounded-3">
+                        <h6 class="text-muted fs-7 text-uppercase mb-2">Revenue (INR)</h6>
+                        <h3 id="stat-total-revenue" class="text-warning mb-0 fw-bold fs-6">₹17,50,150</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <h5 class="h6 text-white mb-3">Recent Booking Actions</h5>
+            <div class="table-responsive table-wrapper shadow-sm">
+                <table class="table-dark-custom">
+                    <thead>
+                        <tr>
+                            <th>ID</th><th>Client Name</th><th>Venue</th><th>Event Type</th><th>Date</th><th>Phone</th><th>Guest Count</th><th>Amount Paid</th><th>Status</th><th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-recent-bookings-rows"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- MODULE 2: MASTER BOOKING LEDGER -->
+        <section id="view-bookings" class="view-panel">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h4 text-white fw-light mb-0">Master Booking Ledger</h2>
+                <div class="d-flex align-items-center gap-3">
+                <div class="position-relative" style="width: 240px;">
+                    <i class="bi bi-search position-absolute top-50 start-3 translate-middle-y text-muted fs-7"></i>
+                    <input type="text" id="table-search-input" class="admin-input search-focus-glow ps-5" placeholder="Search bookings...">
+                </div>
+            </div>
+                <div class="dropdown">
+                    <button class="btn btn-primary fs-7 px-3 py-1 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-download"></i> Export CSV
+                    </button>
+                    <div class="dropdown-menu p-3 bg-dark border-secondary" style="min-width: 250px;">
+                        <h6 class="text-white mb-2">Select Date Range</h6>
+                        <input type="date" id="export-start" class="form-control form-control-sm bg-dark text-white mb-2">
+                        <input type="date" id="export-end" class="form-control form-control-sm bg-dark text-white mb-2">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-sm btn-success" onclick="exportBookingsToCSV()">Export Data</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-responsive table-wrapper shadow-sm" >
+                <table class="table-dark-custom">
+                    <thead>
+                        <tr>
+                            <th>ID</th><th>Client</th><th>Venue</th><th>Event Type</th><th>Date <i class="bi bi-arrow-down-short"></i></th><th>Phone No</th><th>Guest Count</th><th>Amount Paid</th><th>Status</th><th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-bookings-rows"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- MODULE 3: ENQUIRIES PANEL -->
+        <section id="view-enquiries" class="view-panel">
+            <!-- <h2 class="h4 text-white fw-light mb-4">Contact Enquiries Desk</h2> -->
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                <h2 class="h4 text-white fw-light mb-0">Contact Enquiry Desk</h2>
+                
+                <!-- Right-aligned Search Field Structure -->
+                <div class="position-relative" style="width: 240px;">
+                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y text-muted ms-3 fs-7"></i>
+                    <input type="text" id="table-search-input" class="admin-input search-focus-glow ps-5" placeholder="Search bookings...">
+                </div>
+            </div>
+            <div class="table-responsive table-wrapper shadow-sm">
+                <table class="table-dark-custom">
+                    <thead>
+                        <tr>
+                            <th>Received</th><th>Name</th><th>Phone</th><th>Email</th><th>Target Date</th><th>Message Snippet</th><th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-queries-rows"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- MODULE 4: AVAILABILITY CALENDAR -->
+        <section id="view-calendar" class="view-panel">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h4 text-white fw-light mb-0">Availability Calendar</h2>
+                <div class="d-flex gap-3 align-items-center">
+                    <button class="btn-icon" onclick="changeMonth(-1)"><i class="bi bi-chevron-left"></i></button>
+                    <span class="fs-6 fw-bold text-white" id="calendar-month-year">Month Year</span>
+                    <button class="btn-icon" onclick="changeMonth(1)"><i class="bi bi-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="calendar-wrapper-frame flex-grow-1 overflow-y-auto">
+                <div class="calendar-grid" id="dynamic-calendar"></div>
+                <p class="text-muted fs-8 mt-3"><i class="bi bi-info-circle me-1"></i> Red dates indicate confirmed reservations. Click on a red box to view details.</p>
+            </div>
+        </section>
+
+        <!-- MODULE 5: GALLERY ARCHITECTURE MANAGEMENT -->
+        <section id="view-gallery" class="view-panel">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="h4 text-white fw-light mb-0">Gallery Management</h2>
+                    <p class="text-muted fs-8 mt-1 mb-0">Upload premium media assets and manage your portfolios.</p>
+                </div>
+            </div>
+            
+            <div class="row g-4 flex-grow-1 overflow-hidden layout-gallery-row">
+                <!-- 📐 Showcase Matrix Box Frame (Left - 66% Fluid Width Layout) -->
+                <div class="col-lg-8 layout-gallery-showcase">
+                    <div class="gallery-filters mb-3">
+                        <button class="filter-btn active">All Media</button>
+                        <button class="filter-btn">Images</button>
+                        <button class="filter-btn">Videos</button>
+                    </div>
+                    <!-- The dynamic portfolio row layout target engine -->
+                    <div id="admin-gallery-display-grid"></div>
+                </div>
+
+                <!-- 📐 Inputs Controls Parameter Rail (Right - 33% Fluid Width Layout) -->
+                <div class="col-lg-4 layout-gallery-sidebar">
+                    <form id="gallery-upload-form" enctype="multipart/form-data" class="d-grid gap-3">
+                        <div class="upload-zone d-flex flex-column justify-content-center align-items-center p-4" 
+                             style="cursor: pointer; min-height: 140px;" 
+                             onclick="document.getElementById('gallery-file-input').click()">
+                            <i class="bi bi-cloud-arrow-up display-5 text-primary mb-2"></i>
+                            <h6 class="text-white fs-7 mb-1" id="upload-zone-text">Choose Media File</h6>
+                            <span class="fs-8 text-muted">Supports JPG, PNG, MP4</span>
+                            <input type="file" id="gallery-file-input" accept="image/jpeg,image/png,video/mp4" class="d-none" required>
+                        </div>
+
+                        <div class="stat-card p-3">
+                            <h6 class="text-white mb-3 fs-7 border-bottom border-secondary border-opacity-10 pb-2">Asset Parameters</h6>
+                            <div class="d-grid gap-3">
+                                <div>
+                                    <label class="fs-8 text-muted mb-1 text-uppercase tracking-wider">Media Type</label>
+                                    <select class="admin-select" id="gallery-media-type" required>
+                                        <option value="image">Photo (Image)</option>
+                                        <option value="video">Walkthrough (Video)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="fs-8 text-muted mb-1 text-uppercase tracking-wider">Venue Category</label>
+                                    <select class="admin-select" id="gallery-venue-category" required>
+                                        <option value="Lawns">Banagar Lawns</option>
+                                        <option value="Marriage Hall">Marriage Hall</option>
+                                        <option value="Combo">Hall + Lawn Combo</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="fs-8 text-muted mb-1 text-uppercase tracking-wider">Public Details / Tags</label>
+                                    <input type="text" id="gallery-description" class="admin-input" placeholder="e.g. Stage Setup, Lighting">
+                                </div>
+                                <div class="pt-2">
+                                    <button type="submit" class="btn btn-primary fs-7 py-2 w-100 fw-medium" id="btn-upload-media">
+                                        <i class="bi bi-send-check me-2"></i> PUBLISH ASSET
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODULE 6: COMPLETED HISTORY MANIFESTS -->
+        <section id="view-completed" class="view-panel">
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary border-opacity-10 pb-3" style="gap: 10px;">
+                <h2 class="h4 text-white font-serif mb-0"><i class="bi bi-journal-check text-success me-2"></i>Completed Bookings History</h2>
+
+                <!-- Add this wrapper inside your #view-bookings header element -->
+                <div class="d-flex align-items-center gap-3">
+                    <div class="position-relative" style="width: 240px;">
+                        <i class="bi bi-search position-absolute top-50 start-3 translate-middle-y text-muted fs-7"></i>
+                        <input type="text" id="table-search-input" class="admin-input search-focus-glow ps-5" placeholder="Search bookings...">
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <div class="dropdown">
+                        <button class="btn btn-primary fs-7 px-3 py-1 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-download"></i> Export Completed Data
+                        </button>
+                        <div class="dropdown-menu p-3 bg-dark border-secondary" style="min-width: 250px;">
+                            <h6 class="text-white mb-2">Select Month & Year</h6>
+                            <input type="month" id="export-month-completed" class="form-control form-control-sm bg-dark text-white mb-3">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-sm btn-success" onclick="exportMonthlyBookingsToCSV()">Generate CSV</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <button class="btn btn-primary fs-7 px-3 py-1 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Estimate Revenue
+                        </button>
+                        <div class="dropdown-menu p-3 bg-dark border-secondary" style="min-width: 250px;">
+                            <h6 class="text-white mb-2">Happy to Hear, Click OK</h6>
+                            <input type="month" id="export-month" class="form-control form-control-sm bg-dark text-white mb-2" onchange="calculateSelectedMonthRevenue()">
+                            <div id="monthly-revenue-badge" class="p-2 mb-3 rounded bg-secondary bg-opacity-10 text-center d-none" style="border: 1px dashed rgba(255,255,255,0.1);">
+                                <span class="text-muted fs-8 text-uppercase d-block">Estimated Revenue</span>
+                                <strong id="selected-month-total" class="text-warning fs-5">₹0</strong>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-sm btn-success" onclick="alert('Estimated Revenue Generated Successfully')">Done</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-responsive table-wrapper shadow-sm">
+                <table class="table table-dark table-hover mb-0 align-middle text-nowrap table-dark-custom">
+                    <thead>
+                        <tr class="text-uppercase fs-8 text-muted tracking-wide border-bottom border-secondary border-opacity-10">
+                            <th class="ps-4 py-3">ID</th>
+                            <th class="py-3">Customer Info</th>
+                            <th class="py-3">Event Details</th>
+                            <th class="py-3">Event Date</th>
+                            <th class="py-3">Guests</th>
+                            <th class="py-3">Requests</th> <!-- 🙈 Hidden dynamically via style mappings below -->
+                            <th class="py-3">Financials (₹)</th>
+                            <th class="py-3">Booking Status</th>
+                            <th class="pe-4 py-3 text-end">Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody id="completed-bookings-rows">
+                        <tr><td colspan="9" class="text-center text-muted py-5">Compiling closed booking manifests...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- WORKSPACE OVERLAY INTERACTIVE MODALS Layer -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-serif text-white">Booking Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-6"><span class="text-muted fs-8 d-block">Client Name</span><span class="text-white" id="modal-name"></span></div>
+                        <div class="col-6"><span class="text-muted fs-8 d-block">Phone Number</span><span class="text-white" id="modal-phone"></span></div>
+                        <div class="col-6"><span class="text-muted fs-8 d-block">Email</span><span class="text-white" id="modal-email"></span></div>
+                        <div class="col-6"><span class="text-muted fs-8 d-block">Event Date</span><span class="text-gold" id="modal-date"></span></div>
+                        <div class="col-12"><span class="text-muted fs-8 d-block">Venue Selected</span><span class="text-primary" id="modal-venue"></span></div>
+                        <div class="col-12"><span class="text-muted fs-8 d-block">Status</span><span class="status-badge bg-confirmed mt-1 d-inline-block" id="modal-status"></span></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: #111827; border: 1px solid rgba(255,255,255,0.05);">
+                <div class="modal-header border-secondary border-opacity-10">
+                    <h5 class="modal-title font-serif text-white">Admin Profile Settings</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="admin-profile-form">
+                    <div class="modal-body">
+                        <div class="text-center mb-4">
+                            <div class="avatar-upload-container mx-auto position-relative" style="width: 100px; height: 100px;">
+                                <img src="../assets/images/mrg.png" 
+                                     alt="Admin Avatar" id="admin-avatar-preview" class="rounded-circle shadow w-100 h-100" style="object-fit: cover;">
+                                <label for="avatar-upload-input" class="avatar-hover-overlay rounded-circle d-flex flex-column align-items-center justify-content-center position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.2s; cursor: pointer;">
+                                    <i class="bi bi-camera-fill fs-4 text-white"></i>
+                                    <span class="fs-8 text-white mt-1">Change</span>
+                                </label>
+                                <input type="file" id="avatar-upload-input" class="d-none" accept="image/*" onchange="previewAvatar(event)">
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="fs-8 text-muted mb-1 text-uppercase">Full Name</label>
+                                <input type="text" id="profile-fullname" class="admin-input text-white" readonly style="background: rgba(0,0,0,0.25); cursor: not-allowed;">
+                            </div>
+                            <div class="col-12">
+                                <label class="fs-8 text-muted mb-1 text-uppercase">Email Address</label>
+                                <input type="email" id="profile-email" class="admin-input text-white" readonly style="background: rgba(0,0,0,0.25); cursor: not-allowed;">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="fs-8 text-muted mb-1 text-uppercase">Role</label>
+                                <input type="text" class="admin-input text-muted" value="Super Admin" readonly style="background: rgba(0,0,0,0.4); cursor: not-allowed;">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="fs-8 text-muted mb-1 text-uppercase">New Password</label>
+                                <input type="password" id="profile-password" class="admin-input text-white" placeholder="Enter new password" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-secondary border-opacity-10">
+                        <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-4" id="btn-save-profile">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../api-integration.js"></script>
+    <script src="./admin.js"></script>
+</body>
+</html>

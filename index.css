@@ -1,0 +1,811 @@
+:root {
+    --bg-deep-base: #0a0c10;
+    --bg-card-surface: #12161f;
+    --bg-mid-gray: #161b26;
+    --primary-blue: #448eea;
+    --accent-gold: #cfa861;
+    --text-muted-light: #b3bac7;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-deep-base);
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Typography Overrides */
+.font-serif {
+    font-family: 'Playfair Display', serif;
+}
+.text-gold {
+    color: var(--accent-gold);
+}
+.text-light-muted {
+    color: var(--text-muted-light);
+}
+.tracking-widest { letter-spacing: 0.2em; }
+.tracking-wide { letter-spacing: 0.08em; }
+.text-spacing { font-size: 0.65rem !important; }
+
+/* Custom Colors & Sections */
+.bg-dark-deep { background-color: var(--bg-deep-base); }
+.bg-dark-mid { background-color: var(--bg-mid-gray); }
+.bg-dark-card { background-color: var(--bg-card-surface); }
+.bg-dark-solid { background-color: #0b0e14 !important; }
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+.btn-primary:hover {
+    background-color: #2f79d4;
+    border-color: #2f79d4;
+}
+.btn-outline-primary {
+    color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+.bg-gold { background-color: var(--accent-gold); color: #000; }
+
+/* Navbar Custom Styling */
+.navbar {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+    backdrop-filter: blur(15px);
+}
+
+.brand-logo {
+    height: 45px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.brand-logo img {
+    height: 100%;       
+    width: auto;        
+    object-fit: contain; 
+    transition: transform 0.3s ease; 
+}
+
+.navbar-brand:hover .brand-logo img {
+    transform: scale(1.0);
+}
+
+/* Ensure your text layout plays nice next to the logo image container */
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.nav-link {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.7) !important;
+}
+.nav-link.active, .nav-link:hover {
+    color: var(--primary-blue) !important;
+}
+
+.hero-section {
+    min-height: 105vh;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #0d121c;
+    
+    /* ⚡ The Secret Sauce: Forces smooth fading directly on the background changes */
+    transition: background-image 1.2s ease-in-out;
+    will-change: background-image;
+    
+    /* ⏱️ Running a complete 30-second timeline (6 seconds per image loop) */
+    animation: strictHeroCarousel 30s infinite ease-in-out;
+}
+
+/* Hero Section Base Typography Rules */
+.main-heading {
+    font-family: 'Playfair Display', serif;
+    font-weight: 300;
+}
+
+/* Centered Radial/Linear Vignette for a premium focal point */
+.hero-overlay-center {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle, rgba(27, 32, 42, 0.3) 0%, rgba(13, 18, 28, 0.82) 100%);
+    z-index: 1; /* Sits directly over background images */
+}
+
+/* Elevates text typography safely over background tracks */
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Helper to clean width behavior for long text boxes when centered */
+.max-w-md {
+    max-width: 680px;
+}
+
+@keyframes strictHeroCarousel {
+    /* 🖼️ IMAGE 1: home.png */
+    0%, 15% {
+        background-image: url("./assets/images/home.png");
+    }
+    /* Smooth Fade Transition to Image 2 (15% to 20%) */
+    20%, 35% {
+        background-image: url("./assets/images/lawntour.jpeg");
+    }
+    /* Smooth Fade Transition to Image 3 (35% to 40%) */
+    40%, 55% {
+        background-image: url("./assets/images/lawn&mrg.png");
+    }
+    /* Smooth Fade Transition to Image 4 (55% to 60%) */
+    60%, 75% {
+        background-image: url("./assets/images/sec2.jpeg");
+    }
+    /* Smooth Fade Transition to Image 5 (75% to 80%) */
+    80%, 95% {
+        background-image: url("./assets/images/mangmt-exe.jpeg");
+    }
+    /* Loop back cleanly to Image 1 (95% to 100%) */
+    100% {
+        background-image: url("./assets/images/home.png");
+    }
+}
+/* #venues */
+.btn-filter {   
+    background-color: transparent;
+    color: var(--text-muted-light);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    border-radius: 0;
+    transition: all 0.3s ease;
+}
+
+.btn-filter:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Selected state highlight styling */
+.btn-filter.active-filter {
+    color: #ffffff !important;
+    background-color: transparent !important;
+    border-color: var(--primary-blue) !important;
+    box-shadow: 0 4px 12px rgba(68, 142, 234, 0.15);
+}
+
+/* Quick utility for vanilla filter transition speeds */
+.venue-portfolio-item {
+    transition: all 0.4s ease-in-out;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.venue-portfolio-item.hidden-item {
+    opacity: 0 !important;
+    transform: scale(0.8) !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    border: none !important;
+}
+/* Card and Content Decorations */
+.accent-line {
+    width: 60px;
+    height: 2px;
+    background-color: var(--accent-gold);
+}
+.venue-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.venue-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+.venue-img {
+    height: 240px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.venue-card:hover .venue-img {
+    transform: scale(1.05);
+}
+
+.btn-show-more {
+    background-color: #12161f;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.btn-show-more:hover {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    background-color: #171e2a;
+    box-shadow: 0 15px 35px rgba(207, 168, 97, 0.1);
+}
+
+/* Micro-animation transition for the Chevron arrow icon */
+.arrow-toggle {
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Rotate icon 180 degrees when expanded */
+.btn-show-more[aria-expanded="true"] .arrow-toggle {
+    transform: rotate(180deg);
+}
+/* Frame Layout Decorator */
+.border-gold-frame {
+    border-color: rgba(207, 168, 97, 0.3) !important;
+    transform: translate(12px, 12px);
+    z-index: 1;
+}
+
+ /* why trust us */
+
+ .bg-midnight-premium {
+    background-color: #0b0e14 !important; /* Midnight black border split */
+}
+
+/* Luxury Card Blocks using rich corporate navy-sapphire tones */
+.service-card {
+    background-color: #131a26 !important; /* Solid high-contrast block color */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px; /* Crisp minimal edge rounding */
+    transition: all 0.3s ease;
+}
+
+/* Card Icon Box Sizing */
+.service-icon-box {
+    font-size: 1.5rem;
+    display: block;
+    line-height: 1;
+}
+
+/* Subtle, clean micro-interaction when a client hovers over the blocks */
+.service-card:hover {
+    background-color: #1a2333 !important; /* Brightens up into an elegant slate-blue */
+    border-color: rgba(207, 168, 97, 0.25); /* Accents the active boundary with a subtle gold frame */
+    transform: translateY(-4px); /* Minor crisp lifting movement */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+/* Custom fine typography line spacing for compact grids */
+.service-card p {
+    color: #a4abb8 !important; /* Soft platinum grey for clean text reading contrast */
+    font-size: 0.8rem !important;
+}
+
+.service-card h3 {
+    letter-spacing: 0.02em;
+}
+
+/* gallery section */
+
+.btn-gallery-filter {
+    background-color: transparent;
+    color: var(--text-muted-light);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    border-radius: 0;
+    transition: all 0.25s ease;
+}
+
+.btn-gallery-filter:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-gallery-filter.active-g-filter {
+    color: #ffffff !important;
+    border-color: var(--accent-gold) !important;
+    background-color: rgba(207, 168, 97, 0.05) !important;
+}
+
+/* Compact Media Envelopes */
+.gallery-mini-card {
+    height: 220px; /* Reduced box height down to fit cleanly into smaller layouts */
+    cursor: pointer;
+    background-color: #11151d;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.gallery-asset {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Elegant Text-fade Overlay on Hover */
+.gallery-asset-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to top, rgba(10, 12, 16, 0.95) 0%, rgba(10, 12, 16, 0.3) 100%);
+    opacity: 0.85; /* Text data handles are visible by default for clear UX */
+    transition: all 0.3s ease;
+}
+
+/* Interactive Hover Feedback Mechanics */
+.gallery-mini-card:hover .gallery-asset {
+    transform: scale(1.06);
+}
+
+.gallery-mini-card:hover .gallery-asset-overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(10, 12, 16, 0.98) 0%, rgba(10, 12, 16, 0.1) 100%);
+}
+
+/* Simple vanilla filter node toggle styles */
+.gallery-matrix-item {
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-matrix-item.hide-asset {
+    opacity: 0 !important;
+    transform: scale(0.85) !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+/* --- PREMIUM INFINITE TESTIMONIAL MARQUEE --- */
+.testimonial-marquee-wrapper {
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    position: relative;
+    padding: 10px 0;
+}
+
+/* Linear gradients on edges to blend cards beautifully into the dark canvas */
+.testimonial-marquee-wrapper::before,
+.testimonial-marquee-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+.testimonial-marquee-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #0b0d12 0%, rgba(11, 13, 18, 0) 100%);
+}
+.testimonial-marquee-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #0b0d12 0%, rgba(11, 13, 18, 0) 100%);
+}
+
+/* The actual running track container */
+.testimonial-marquee-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: marqueeHorizontal 35s linear infinite;
+}
+
+/* Pause the scrolling loop smoothly when a user hovers over a review */
+.testimonial-marquee-wrapper:hover .testimonial-marquee-track {
+    animation-play-state: paused;
+}
+
+/* Custom Base card parameters */
+.testimonial-card {
+    flex-shrink: 0;
+    width: 300px;
+    min-height: 210px;
+    padding: 20px;
+    display: flex;
+    flex-direction: justify-content-between;
+    flex-direction: column;
+    background: rgba(19, 24, 34, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, background 0.4s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(207, 168, 97, 0.35) !important;
+    background: rgba(23, 29, 41, 0.6) !important;
+    box-shadow: 0 15px 35px rgba(10, 12, 16, 0.5);
+}
+
+.initial-avatar {
+    width: 34px; 
+    height: 34px; 
+    font-size: 0.75rem;
+}
+
+/* Smooth Infinite Translate Engine Loop */
+@keyframes marqueeHorizontal {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* Translates exactly half of the total track length (original set) */
+        transform: translateX(calc(-50% - 10px)); 
+    }
+}
+/* --- MOBILE RESPONSIVE OPTIMIZATIONS --- */
+@media (max-width: 575.98px) {
+    /* 1. Adjust speed for smaller viewport distances */
+    .testimonial-marquee-track {
+        animation-duration: 25s; /* Slightly faster loop since mobile screen width is narrow */
+        gap: 15px;
+    }
+    
+    /* 2. Scale the card boundaries fluidly for mobile viewports */
+    .testimonial-card {
+        width: 260px; /* Slims down width so elements don't overflow small screens */
+        padding: 16px;
+        min-height: 230px; /* Gives extra vertical breathing room for long text strings */
+    }
+
+    /* 3. Reduce edge gradient masking widths on mobile */
+    .testimonial-marquee-wrapper::before,
+    .testimonial-marquee-wrapper::after {
+        width: 50px; /* Keeps the fade indicator compact so reviews aren't blocked */
+    }
+}
+/* Typography Helpers to sync layout hierarchy */
+.fs-7 { font-size: 0.92rem !important; }
+.fs-8 { font-size: 0.84rem !important; }
+/* .lh-lg { line-by-line-height: 1.85 !important; } */
+
+/* footer section */
+.footer-section {
+    background-color: #040810 !important; /* Pitch base deep slate black matching layout image */
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Logo Sizing limit limits */
+.footer-logo {
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+}
+
+.footer-desc {
+    color: #8fa0b5 !important;
+    font-size: 0.8rem !important;
+}
+
+/* Nav links styling */
+.footer-links li a {
+    color: #8fa0b5 !important;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links li a:hover {
+    color: var(--primary-blue) !important;
+}
+
+/* Align links text decoration behaviors */
+.footer-contact-list li i {
+    font-size: 1rem;
+    color: #448eea !important; /* Forces standard primary icon color from image token */
+}
+
+.footer-contact-list a {
+    transition: color 0.2s ease;
+}
+
+.footer-contact-list a:hover {
+    color: #ffffff !important;
+}
+
+/* Map Frame Structural Proportions */
+.footer-map-container {
+    width: 100%;
+    height: 150px; /* Precise height ratio matching snapshot window */
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Apply professional dark/cool filter layout tone on google map iframe */
+.footer-map-container iframe {
+    filter: grayscale(1) invert(0.92) contrast(1.1) brightness(0.95);
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+}
+
+.footer-map-container:hover iframe {
+    opacity: 1;
+    filter: grayscale(0.2) invert(0.92) contrast(1); /* Smoothly returns minor color elements on view focus */
+}
+
+/* Sub-Footer layout styling rules */
+.sub-footer-links a {
+    transition: color 0.2s ease;
+}
+
+.sub-footer-links a:hover {
+    color: #ffffff !important;
+}
+
+/* Clear vertical constraints */
+.fs-7 { font-size: 0.82rem !important; }
+.fs-8 { font-size: 0.72rem !important; }
+
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE MEDIA QUERIES (BREAKPOINTS)
+   ========================================================================== */
+
+/* 1. TABLETS & SMALL DESKTOPS (Max-width: 991.98px) */
+@media (max-width: 991.98px) {
+    .navbar {
+        background-color: #0b0e14 !important; /* Force solid dark background when menus collapse */
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+    }
+
+    .hero-section {
+        min-height: 90vh; /* Prevents oversized vertical spaces on medium devices */
+    }
+
+    /* Adjusts Section Headers for better mobile balance */
+    .display-5 {
+        font-size: 2.25rem !important;
+    }
+
+    .display-6 {
+        font-size: 1.85rem !important;
+    }
+
+    /* Prevent text elements from breaking screen containment bounds */
+    .border-gold-frame {
+        transform: translate(0, 0) !important; /* Resets decorative shifts to keep alignments clean */
+    }
+}
+
+/* 2. SMARTPHONES / PORTRAIT MOBILE VIEWS (Max-width: 767.98px) */
+@media (max-width: 767.98px) {
+    
+    /* Global Section Padding Reduction to maximize reading surface area */
+    .py-5 {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+    
+    .container, .container-fluid {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    /* Hero Typography Scaling Controls */
+    .hero-section {
+        min-height: 85vh;
+    }
+
+    .display-3 {
+        font-size: 2.15rem !important;
+        line-height: 1.3 !important;
+    }
+
+    .hero-section p.lead {
+        font-size: 0.9rem !important;
+        line-height: 1.6 !important;
+    }
+
+    /* Force button lists to stack beautifully on top of each other instead of clipping */
+    .hero-section .d-flex {
+        flex-direction: column !important;
+        width: 100%;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+        gap: 12px !important;
+    }
+
+    .hero-section .btn {
+        width: 100% !important;
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+    }
+
+    /* Horizontal Category Button Controls Filter bar wrap configuration */
+    #venue-filter-controls, 
+    #gallery-filter-controls {
+        gap: 6px !important;
+        justify-content: flex-start !important; /* Allows natural thumb swipe-scrolling if needed */
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .btn-filter, .btn-gallery-filter {
+        padding: 8px 16px !important;
+        font-size: 0.7rem !important;
+    }
+
+    /* Venue Cards Optimization */
+    .venue-img {
+        height: 200px; /* Trims aspect frame height down on small devices */
+    }
+
+    .premium-venue-card h3, .venue-card h3 {
+        font-size: 1.35rem !important;
+    }
+
+    /* Icons Metrics Row spacing compression */
+    .meta-metrics-row {
+        gap: 15px !important;
+    }
+
+    /* Why Trust Us / Services Module modifications */
+    .service-card {
+        padding: 24px !important; /* Compresses internal empty cushion gaps */
+    }
+
+    .service-card h3 {
+        font-size: 1.15rem !important;
+    }
+
+    /* Media Gallery Envelopes adjustments */
+    .gallery-mini-card {
+        height: 180px; /* Slimmer layout to view blocks comfortably in single streams */
+    }
+
+    /* Footer structure alignment shift */
+    .footer-section {
+        text-align: center;
+    }
+
+    .footer-brand, .footer-section h4 {
+        margin-bottom: 20px !important;
+        justify-content: center;
+    }
+
+    .footer-contact-list li {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .footer-contact-list li i {
+        margin-top: 0 !important; /* Re-aligns geometry icons */
+    }
+
+    .footer-map-container {
+        height: 180px; /* Expands spatial visibility box for easier map touch tracking */
+        margin-top: 15px;
+    }
+
+    /* Bottom Credits sub-footer items alignment configuration */
+    .sub-footer-links {
+        justify-content: center !important;
+        margin-top: 10px;
+        gap: 15px !important;
+    }
+}
+
+/* 3. EXTRA SMALL SMARTPHONES / MINI DEVICES (Max-width: 375px) */
+@media (max-width: 375px) {
+    .display-3 {
+        font-size: 1.85rem !important;
+    }
+    
+    .meta-metrics-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+}
+
+/* whatsapp and call icon css */
+
+.floating-contact-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 9999; /* Ensures it stays on top of all other content */
+}
+
+/* Base styling for the circular buttons */
+.floating-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.5rem; /* Size of the icon */
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* WhatsApp Specific Colors */
+.whatsapp-btn {
+    background-color: #25D366; 
+}
+.whatsapp-btn:hover {
+    background-color: #1ebe57;
+    color: #ffffff;
+    transform: scale(1.1) translateY(-4px);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+}
+
+/* Call Button Specific Colors (Using your brand blue) */
+.call-btn {
+    background-color: var(--primary-blue, #3b82f6); 
+}
+.call-btn:hover {
+    background-color: #2563eb;
+    color: #ffffff;
+    transform: scale(1.1) translateY(-4px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 767.98px) {
+    .floating-contact-container {
+        bottom: 20px;
+        right: 20px;
+        gap: 12px;
+    }
+    .floating-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 1.25rem;
+    }
+}
+
+/* share button css */
+/* Position it cleanly right next to your existing contact configurations */
+.floating-share-container {
+    position: fixed;
+    bottom: 170px; /* Sits elegantly above your call and WhatsApp layout stack */
+    right: 30px;
+}
+
+.share-btn {
+    background-color: #11151d; /* Midnight base matching your dark aesthetic */
+    border-color: rgba(207, 168, 97, 0.4) !important; /* Gold structural edge */
+    color: var(--accent-gold) !important;
+}
+
+.share-btn:hover {
+    background-color: var(--accent-gold);
+    color: #000000 !important;
+    transform: scale(1.1) translateY(-4px);
+    box-shadow: 0 8px 20px rgba(207, 168, 97, 0.3);
+}
+
+/* Mobile Alignment Balancing */
+@media (max-width: 767.98px) {
+    .floating-share-container {
+        bottom: 140px;
+        right: 20px;
+    }
+}

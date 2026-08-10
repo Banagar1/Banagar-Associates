@@ -1,0 +1,83 @@
+let galleryPageCachedMedia = [];
+
+document.addEventListener("DOMContentLoaded", () => {
+    initFullGalleryPage();
+});
+
+async function initFullGalleryPage() {
+    const grid = document.getElementById("full-portfolio-grid");
+    if (!grid) return;
+
+    try {
+        const response = await fetch("http://localhost:8000/api/public/gallery");
+        if (!response.ok) throw new Error("Database file stream failed.");
+        
+        const data = await response.json();
+        galleryPageCachedMedia = data;
+        
+        renderFullGalleryCards(galleryPageCachedMedia);
+
+    } catch (err) {
+        console.error("Error reading portfolio array:", err);
+        grid.innerHTML = `<div class="col-12 text-center text-muted py-4"><p>Visual gallery temporary offline.</p></div>`;
+    }
+}
+
+function renderFullGalleryCards(items) {
+    const grid = document.getElementById("full-portfolio-grid");
+    if (!grid) return;
+
+    grid.innerHTML = "";
+
+    if (items.length === 0) {
+        grid.innerHTML = `<div class="col-12 text-center text-muted py-5"><p>No items published by admin yet.</p></div>`;
+        return;
+    }
+
+    items.forEach(item => {
+        const cleanPath = item.media_url.startsWith("/") ? item.media_url : `/${item.media_url}`;
+        const fileUrl = `http://localhost:8000${cleanPath}`;
+        
+        const mediaTag = item.media_type === "image"
+            ? `<img src="${fileUrl}" alt="${item.description || ''}" class="img-fluid gallery-asset" style="object-fit: cover; height: 100%; width: 100%;">`
+            : `<video src="${fileUrl}" muted autoplay loop class="w-100" style="object-fit: cover; height: 100%; min-height:220px;"></video>`;
+
+        const badgeTag = item.media_type === "image"
+            ? `<span class="badge bg-gold text-dark rounded-0 px-2 py-1 align-self-start"><i class="bi bi-camera me-1"></i> IMAGE</span>`
+            : `<span class="badge bg-primary rounded-0 px-2 py-1 align-self-start"><i class="bi bi-play-circle me-1"></i> VIDEO</span>`;
+
+        const cardHtml = `
+            <div class="col-sm-6 col-md-4 col-xl-3 mb-4">
+                <div class="gallery-mini-card position-relative overflow-hidden shadow-sm" style="height: 250px; background:#000;">
+                    <div class="w-100 h-100 d-flex align-items-center justify-content-center overflow-hidden">
+                        ${mediaTag}
+                    </div>
+                    <div class="gallery-asset-overlay p-3 d-flex flex-column justify-content-between">
+                        ${badgeTag}
+                        <div>
+                            <span class="fs-8 tracking-wider text-gold text-uppercase d-block mb-1">${item.venue_category}</span>
+                            <h5 class="h6 text-white font-serif mb-0 text-truncate">${item.description || 'Banagar Luxury Setup'}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        
+        grid.insertAdjacentHTML("beforeend", cardHtml);
+    });
+}
+
+window.filterFullGallery = function(targetType, btnElement) {
+    const buttons = document.querySelectorAll("#gallery-page-filter-controls .btn");
+    buttons.forEach(b => b.classList.remove("active-g-filter"));
+    if (btnElement) btnElement.classList.add("active-g-filter");
+
+    if (targetType === "all") {
+        renderFullGalleryCards(galleryPageCachedMedia);
+    } else {
+        const filtered = galleryPageCachedMedia.filter(item => 
+            (item.media_type && item.media_type.toLowerCase() === targetType.toLowerCase()) ||
+            (item.venue_category && item.venue_category.toLowerCase() === targetType.toLowerCase())
+        );
+        renderFullGalleryCards(filtered);
+    }
+};
