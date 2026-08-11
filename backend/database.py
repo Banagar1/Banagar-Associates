@@ -1,25 +1,32 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-import os
 from dotenv import load_dotenv
 
-# Load variables from your .env file
+# Load variables from .env file
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:@localhost:3306/banagar_db")
+# Fallback default for local development
+DEFAULT_LOCAL_DB = "mysql+pymysql://root:@localhost:3306/banagar_db"
 
-# Create the connection engine for MySQL
+DATABASE_URL = os.getenv("DATABASE_URL", DEFAULT_LOCAL_DB)
+
+# Create the SQLAlchemy engine for MySQL
 engine = create_engine(
     DATABASE_URL,
-    pool_pre_ping=True,  # Checks if connection is alive before sending queries
+    pool_pre_ping=True,  # Automatically reconnects if connection drops
     pool_size=10,
-    max_overflow=20
+    max_overflow=20,
+    pool_recycle=3600    # Recycles connections every hour to prevent MySQL timeout errors
 )
 
+# Session factory for DB interactions
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Base class for SQLAlchemy ORM Models
 Base = declarative_base()
 
-# Dependency to open/close database sessions cleanly
+# FastAPI dependency to yield database sessions cleanly per request
 def get_db():
     db = SessionLocal()
     try:

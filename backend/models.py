@@ -1,12 +1,14 @@
+import enum
 from sqlalchemy import Column, Integer, String, Text, Date, Numeric, DateTime, Enum, func
 from database import Base
-import enum
 
-# 1. FIXED ENUMS TO MATCH FRONTEND STRINGS EXACTLY
+# =========================================================================
+# 1. ENUMERATIONS MATCHING FRONTEND DATA CONTRACTS
+# =========================================================================
 class VenueType(str, enum.Enum):
     lawns = "Banagar Lawns"
     hall = "Banagar Marriage Hall"
-    combo = "Combo" 
+    combo = "Combo"
 
 class PaymentStatus(str, enum.Enum):
     advance = "Advance Paid"
@@ -31,20 +33,22 @@ class VenueCategory(str, enum.Enum):
     hall = "Marriage Hall"
     combo = "Combo"
 
-# 2. THE MASTER BOOKING TABLE
+# =========================================================================
+# 2. MASTER BOOKINGS ORM MODEL
+# =========================================================================
 class Booking(Base):
     __tablename__ = "bookings"
 
-    id = Column(String(20), primary_key=True, index=True)
+    id = Column(String(20), primary_key=True, index=True)  # Format: BA_000001
     customer_name = Column(String(100), nullable=False)
-    email = Column(String(150), nullable=False)
+    email = Column(String(150), nullable=True)
     phone = Column(String(20), nullable=False)
     venue_type = Column(String(100), nullable=False)
     
-    # NEW COLUMN ADDED FOR ADMIN DASHBOARD
+    # Event metadata field for Admin Dashboard display
     event_type = Column(String(100), nullable=True, default="Not Specified") 
     
-    # ⚡ UPGRADED: Removed unique=True to allow parallel entries for separate venues on the same date
+    # Allows multiple venue bookings on the same date (Separate Lawn vs Compound B)
     event_date = Column(Date, nullable=False, index=True)
     
     guest_count = Column(Integer, nullable=False, default=0)
@@ -56,20 +60,27 @@ class Booking(Base):
     booking_status = Column(Enum(BookingStatus), nullable=False, default=BookingStatus.pending)
     created_at = Column(DateTime, default=func.now())
 
-# 3. OTHER TABLES (Unchanged)
+# =========================================================================
+# 3. PUBLIC CONTACT ENQUIRIES MODEL
+# =========================================================================
 class Query(Base):
     __tablename__ = "queries"
+
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     received_time = Column(DateTime, default=func.now())
     name = Column(String(100), nullable=False)
     phone = Column(String(20), nullable=False)
-    email = Column(String(150), nullable=False)
-    event_date = Column(Date, nullable=False)
+    email = Column(String(150), nullable=True)        # Optional in public contact form
+    event_date = Column(Date, nullable=True)            # Optional in public contact form
     message = Column(Text, nullable=False)
     status = Column(Enum(QueryStatus), nullable=False, default=QueryStatus.not_contacted)
 
+# =========================================================================
+# 4. GALLERY MEDIA ASSETS MODEL
+# =========================================================================
 class GalleryItem(Base):
     __tablename__ = "gallery"
+
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     media_url = Column(String(255), nullable=False)
     media_type = Column(Enum(MediaType), nullable=False)

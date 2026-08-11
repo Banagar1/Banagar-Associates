@@ -1,21 +1,25 @@
 import os
 import re
-import bcrypt
-from pydantic import BaseModel
 import shutil
+import bcrypt
 from datetime import date, datetime
 from typing import List, Optional
-from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File, Form, Query as FastAPIQuery, BackgroundTasks
-import notification
+
+from fastapi import (
+    FastAPI, Depends, HTTPException, status, 
+    UploadFile, File, Form, Query as FastAPIQuery, BackgroundTasks
+)
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
+
 from sqlalchemy.orm import Session
-from sqlalchemy import func, extract, update
-from sqlalchemy import desc
+from sqlalchemy import func, extract, update, desc
 
 import models
 import schemas
 import auth
+import notification
 from database import engine, get_db
 
 # Automatically verify/generate tables on startup
@@ -23,7 +27,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Banagar Associates Backend Gateway", version="1.0.0")
 
-# Global CORS Policy mapping to allow your local frontend files to communicate
+# Global CORS Policy mapping
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -32,31 +36,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Setup dedicated uploads folder for your gallery files
+# Setup dedicated uploads folder for gallery media
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
+
 def generate_booking_id(db: Session) -> str:
     """Generates sequential custom IDs formatted like BA_000001 safely"""
-    
-    # 1. Ask the database for the single row with the highest ID
     last_booking = db.query(models.Booking).order_by(desc(models.Booking.id)).first()
     
-    # 2. If the database is completely empty, start at 1
     if not last_booking:
         return "BA_000001"
         
-    # 3. Extract the number from the last ID (e.g., "BA_000004" -> 4) and add 1
     try:
         last_id_string = last_booking.id
         last_number = int(last_id_string.split("_")[1])
         new_number = last_number + 1
     except (IndexError, ValueError):
-        # Fallback just in case a badly formatted ID was manually typed into the database
         new_number = 1
         
-    # 4. Format it back into your required string with 6 leading zeros
     return f"BA_{new_number:06d}"
 
 # =========================================================
@@ -65,29 +64,31 @@ def generate_booking_id(db: Session) -> str:
 
 @app.post("/api/admin/login", response_model=schemas.TokenResponse)
 def admin_login(payload: schemas.AdminLogin):
-    """Authenticates admin securely with a direct text validation fallback"""
+    """Authenticates admin securely with bcrypt or fallback check"""
     admin_email = os.getenv("ADMIN_EMAIL", "admin@banagar.com")
     
-    # 1. First, check if the email is correct
     if payload.email != admin_email:
         raise HTTPException(status_code=401, detail="Invalid administrative email address")
     
-    # 2. Match password using a direct fallback or the secure hash string
     is_valid = False
-    if payload.password == "password":  # Direct developer bypass fallback
+    
+    # Direct developer fallback bypass for local tests
+    if payload.password == "password":  
         is_valid = True
     else:
         try:
-            is_valid = auth.verify_password(payload.password, os.getenv("ADMIN_PASSWORD_HASH"))
-        except Exception:
+            stored_hash = os.getenv("ADMIN_PASSWORD_HASH", "")
+            is_valid = auth.verify_password(payload.password, stored_hash)
+        except Exception as e:
+            print(f"Bcrypt verification exception: {e}")
             is_valid = False
 
     if not is_valid:
         raise HTTPException(status_code=401, detail="Invalid administrative credentials provided")
     
-    # 3. Generate the secure token session
     token = auth.create_access_token(data={"sub": payload.email})
     return {"access_token": token, "token_type": "bearer"}
+
 
 @app.get("/api/public/booked-dates")
 def get_booked_dates(db: Session = Depends(get_db)):
@@ -103,29 +104,27 @@ def get_booked_dates(db: Session = Depends(get_db)):
         } for b in active_bookings if b.event_date
     ]
 
+
 @app.post("/api/public/bookings", response_model=schemas.BookingResponse)
 def create_booking(payload: schemas.BookingCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     """Handles User Booking Requests with Decoupled Property Matrix Lock Logic"""
     
-    # 1. Pull all non-cancelled reservations sitting on that target day
     active_day_bookings = db.query(models.Booking).filter(
         models.Booking.event_date == payload.event_date,
         models.Booking.booking_status != models.BookingStatus.cancelled
     ).all()
     
-    # 2. Execute Decoupled Cross-Lock Rule System
     has_conflict = False
     for booking in active_day_bookings:
         existing_venue = str(booking.venue_type).strip()
         requested_venue = str(payload.venue_package).strip()
 
-        # Rule A: Direct identical duplicates on the same package space are always blocked
+        # Rule A: Direct identical duplicates are blocked
         if existing_venue == requested_venue:
             has_conflict = True
             break
             
-        # Rule B: Compound B Conflict Checker (Marriage Hall <-> Full Combo Mutual Block)
-        # If neither the request nor the existing row involves the Separate Lawn, they belong to Compound B
+        # Rule B: Compound B Conflict Checker
         if "Separate Lawn" not in requested_venue and "Separate Lawn" not in existing_venue:
             if "Combo" in requested_venue or "Combo" in existing_venue:
                 has_conflict = True
@@ -134,7 +133,7 @@ def create_booking(payload: schemas.BookingCreate, background_tasks: BackgroundT
     if has_conflict:
         raise HTTPException(status_code=400, detail="The selected venue space is already reserved on this date.")
 
-    # 3. Dynamic Price Calculator Matrix
+    # Dynamic Price Calculator
     total_price = 50000.00
     if "Marriage Hall" in payload.venue_package:
         total_price = 100000.00
@@ -170,10 +169,11 @@ def create_booking(payload: schemas.BookingCreate, background_tasks: BackgroundT
         db.rollback()
         print(f"Database Error: {e}")
         raise HTTPException(status_code=500, detail="Internal server transaction error occurred")
-    
+
+
 @app.post("/api/public/queries", response_model=schemas.QueryResponse)
 def create_query(payload: schemas.QueryCreate, db: Session = Depends(get_db)):
-    """Saves user questions from the footer/contact form into the queries table"""
+    """Saves user questions from contact form into queries table"""
     query_db = models.Query(
         name=payload.name,
         phone=payload.phone,
@@ -187,6 +187,7 @@ def create_query(payload: schemas.QueryCreate, db: Session = Depends(get_db)):
     db.refresh(query_db)
     return query_db
 
+
 @app.get("/api/public/gallery", response_model=List[schemas.GalleryResponse])
 def get_gallery(
     venue_category: Optional[models.VenueCategory] = None,
@@ -194,7 +195,7 @@ def get_gallery(
     limit: Optional[int] = None,
     db: Session = Depends(get_db)
 ):
-    """Fetches pictures and videos. Supports limit=8 for your home index page."""
+    """Fetches photos/videos with filter and limit options"""
     q = db.query(models.GalleryItem)
     if venue_category:
         q = q.filter(models.GalleryItem.venue_category == venue_category)
@@ -213,28 +214,23 @@ def get_gallery(
 
 @app.get("/api/admin/dashboard/stats", response_model=schemas.DashboardStats)
 def get_dashboard_statistics(db: Session = Depends(get_db), current_admin: str = Depends(auth.get_current_admin)):
-    """Calculates all live analytical summary counters for the top cards"""
+    """Calculates all live analytical summary counters"""
     now = datetime.now()
     
-    # 1. Booking Counts
     total_b = db.query(func.count(models.Booking.id)).scalar()
     
-    # Count BOTH Confirmed and Completed as "Active/Successful" bookings
     conf_b = db.query(func.count(models.Booking.id)).filter(
         models.Booking.booking_status.in_([models.BookingStatus.confirmed, models.BookingStatus.completed])
     ).scalar()
     
     pend_b = db.query(func.count(models.Booking.id)).filter(models.Booking.booking_status == models.BookingStatus.pending).scalar()
     
-    # 2. Enquiry Counts
     total_q = db.query(func.count(models.Query.id)).scalar()
     new_q = db.query(func.count(models.Query.id)).filter(
         extract('month', models.Query.received_time) == now.month,
         extract('year', models.Query.received_time) == now.year
     ).scalar()
     
-    # 3. SMART REVENUE CALCULATION 
-    # Add Advance (25k) for Confirmed + Full Rent for Completed bookings
     confirmed_revenue = db.query(func.sum(models.Booking.advance_paid)).filter(
         models.Booking.booking_status == models.BookingStatus.confirmed
     ).scalar() or 0.00
@@ -254,26 +250,29 @@ def get_dashboard_statistics(db: Session = Depends(get_db), current_admin: str =
         "total_revenue_collected": total_revenue
     }
 
+
 @app.get("/api/admin/bookings/recent", response_model=List[schemas.BookingResponse])
 def get_recent_bookings(db: Session = Depends(get_db), current_admin: str = Depends(auth.get_current_admin)):
-    """⚡ UPDATED: Returns the absolute last/most recently booked 10 rows for the overview panel"""
+    """Returns top 10 most recent bookings"""
     return db.query(models.Booking)\
              .order_by(models.Booking.created_at.desc())\
              .limit(10)\
              .all()
 
+
 @app.get("/api/admin/bookings", response_model=List[schemas.BookingResponse])
 def get_all_bookings(db: Session = Depends(get_db), current_admin: str = Depends(auth.get_current_admin)):
-    """Fetches every booking entry for your master tables"""
+    """Fetches all bookings"""
     return db.query(models.Booking).order_by(models.Booking.created_at.desc()).all()
+
 
 @app.get("/api/admin/bookings/completed", response_model=List[schemas.BookingResponse])
 def get_completed_bookings(db: Session = Depends(get_db), current_admin: str = Depends(auth.get_current_admin)):
-    completed = db.query(models.Booking)\
-        .filter(models.Booking.booking_status == models.BookingStatus.completed)\
-        .order_by(models.Booking.event_date.desc())\
-        .all()
-    return completed
+    return db.query(models.Booking)\
+             .filter(models.Booking.booking_status == models.BookingStatus.completed)\
+             .order_by(models.Booking.event_date.desc())\
+             .all()
+
 
 @app.get("/api/admin/dashboard/monthly-revenue")
 def get_monthly_revenue(db: Session = Depends(get_db), current_admin: str = Depends(auth.get_current_admin)):
@@ -302,12 +301,19 @@ def get_monthly_revenue(db: Session = Depends(get_db), current_admin: str = Depe
 
     return formatted_results
 
+
 @app.put("/api/admin/bookings/{booking_id}", response_model=schemas.BookingResponse)
-def update_booking_runtime(booking_id: str, payload: schemas.BookingUpdate, background_tasks: BackgroundTasks, db: Session = Depends(get_db), current_admin: str = Depends(auth.get_current_admin)):
-    """Allows administrators to edit, confirm, complete, or cancel bookings"""
+def update_booking_runtime(
+    booking_id: str, 
+    payload: schemas.BookingUpdate, 
+    background_tasks: BackgroundTasks, 
+    db: Session = Depends(get_db), 
+    current_admin: str = Depends(auth.get_current_admin)
+):
+    """Edits or updates booking status"""
     item = db.query(models.Booking).filter(models.Booking.id == booking_id).first()
     if not item:
-        raise HTTPException(status_code=404, detail="Target booking record structural instance missing")
+        raise HTTPException(status_code=404, detail="Target booking record missing")
     
     old_status = item.booking_status
 
@@ -337,37 +343,39 @@ def update_booking_runtime(booking_id: str, payload: schemas.BookingUpdate, back
             
     return item
 
+
 @app.get("/api/admin/bookings/date/{event_date_str}", response_model=List[schemas.BookingResponse])
 def get_booking_by_date(event_date_str: str, db: Session = Depends(get_db), current_admin: str = Depends(auth.get_current_admin)):
-    """Fetches ALL bookings occupying a specific date to display multiple cards in the admin modal safely"""
+    """Fetches ALL bookings occupying a specific date"""
     try:
         parsed_date = datetime.strptime(event_date_str, "%Y-%m-%d").date()
     except ValueError:
-        raise HTTPException(status_code=400, detail="Invalid date format structure parameter mapping")
+        raise HTTPException(status_code=400, detail="Invalid date format parameter")
         
-    items = db.query(models.Booking).filter(
+    return db.query(models.Booking).filter(
         models.Booking.event_date == parsed_date,
         models.Booking.booking_status != models.BookingStatus.cancelled
     ).all()
-    
-    return items
+
 
 @app.get("/api/admin/queries", response_model=List[schemas.QueryResponse])
 def get_all_queries(db: Session = Depends(get_db), current_admin: str = Depends(auth.get_current_admin)):
-    """Lists incoming user queries for the Admin tracking matrix"""
+    """Lists incoming user queries"""
     return db.query(models.Query).order_by(models.Query.received_time.desc()).all()
+
 
 @app.patch("/api/admin/queries/{query_id}/status", response_model=schemas.QueryResponse)
 def toggle_query_status(query_id: int, db: Session = Depends(get_db), current_admin: str = Depends(auth.get_current_admin)):
-    """Toggles enquiry tracking status between Contacted and Not Contacted"""
+    """Toggles enquiry status between Contacted and Not Contacted"""
     item = db.query(models.Query).filter(models.Query.id == query_id).first()
     if not item:
-        raise HTTPException(status_code=404, detail="Target Lead node index missing lookup fields")
+        raise HTTPException(status_code=404, detail="Target lead not found")
     
     item.status = models.QueryStatus.contacted if item.status == models.QueryStatus.not_contacted else models.QueryStatus.not_contacted
     db.commit()
     db.refresh(item)
     return item
+
 
 @app.post("/api/admin/gallery", response_model=schemas.GalleryResponse)
 def upload_gallery_media(
@@ -378,10 +386,10 @@ def upload_gallery_media(
     db: Session = Depends(get_db),
     current_admin: str = Depends(auth.get_current_admin)
 ):
-    """Handles administrative uploads restricting to jpg, png, and mp4 formats"""
+    """Uploads gallery files (jpg, jpeg, png, mp4)"""
     ext = file.filename.split(".")[-1].lower()
-    if ext not in ["jpg", "png", "mp4"]:
-        raise HTTPException(status_code=400, detail="Secure system restriction: file extension matrix disallowed")
+    if ext not in ["jpg", "jpeg", "png", "mp4"]:
+        raise HTTPException(status_code=400, detail="Disallowed file extension")
         
     file_uuid = f"{int(datetime.now().timestamp())}_{file.filename}"
     target_path = os.path.join(UPLOAD_DIR, file_uuid)
@@ -402,12 +410,13 @@ def upload_gallery_media(
     db.refresh(item)
     return item
 
+
 @app.delete("/api/admin/gallery/{item_id}", status_code=200)
 def purge_gallery_media(item_id: int, db: Session = Depends(get_db), current_admin: str = Depends(auth.get_current_admin)):
-    """Deletes media files completely out of the local folder storage and database records"""
+    """Deletes media file and database entry"""
     item = db.query(models.GalleryItem).filter(models.GalleryItem.id == item_id).first()
     if not item:
-        raise HTTPException(status_code=404, detail="Target tracking file object does not exist")
+        raise HTTPException(status_code=404, detail="File object not found")
         
     rel_path = item.media_url.lstrip("/")
     if os.path.exists(rel_path):
@@ -415,11 +424,13 @@ def purge_gallery_media(item_id: int, db: Session = Depends(get_db), current_adm
         
     db.delete(item)
     db.commit()
-    return {"message": "System database entry and tracking reference purged clean"}
+    return {"message": "Gallery media deleted successfully"}
+
 
 class PasswordUpdatePayload(BaseModel):
     key: str = "new_password"
     new_password: str
+
 
 @app.put("/api/admin/update-password", status_code=200)
 def change_admin_password_runtime(payload: PasswordUpdatePayload, current_admin: str = Depends(auth.get_current_admin)):
@@ -428,7 +439,7 @@ def change_admin_password_runtime(payload: PasswordUpdatePayload, current_admin:
     
     os.environ["ADMIN_PASSWORD_HASH"] = new_hash
     
-    env_path = "../.env" if os.path.exists("../.env") else ".env"
+    env_path = ".env" if os.path.exists(".env") else "../.env"
     if os.path.exists(env_path):
         with open(env_path, "r") as file:
             lines = file.readlines()
@@ -440,6 +451,4 @@ def change_admin_password_runtime(payload: PasswordUpdatePayload, current_admin:
                 else:
                     file.write(line)
                     
-    return {"status": "success", "detail": "Administrative security credentials synchronized successfully."}
-
-app.mount("/", StaticFiles(directory="..", html=True), name="frontend")
+    return {"status": "success", "detail": "Administrative credentials updated successfully."}
