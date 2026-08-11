@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./admin.css">
+    <link rel="stylesheet" href="admin.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -105,27 +105,27 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="h4 text-white fw-light mb-0">Master Booking Ledger</h2>
                 <div class="d-flex align-items-center gap-3">
-                <div class="position-relative" style="width: 240px;">
-                    <i class="bi bi-search position-absolute top-50 start-3 translate-middle-y text-muted fs-7"></i>
-                    <input type="text" id="table-search-input" class="admin-input search-focus-glow ps-5" placeholder="Search bookings...">
-                </div>
-            </div>
-                <div class="dropdown">
-                    <button class="btn btn-primary fs-7 px-3 py-1 dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-download"></i> Export CSV
-                    </button>
-                    <div class="dropdown-menu p-3 bg-dark border-secondary" style="min-width: 250px;">
-                        <h6 class="text-white mb-2">Select Date Range</h6>
-                        <input type="date" id="export-start" class="form-control form-control-sm bg-dark text-white mb-2">
-                        <input type="date" id="export-end" class="form-control form-control-sm bg-dark text-white mb-2">
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-sm btn-success" onclick="exportBookingsToCSV()">Export Data</button>
+                    <div class="position-relative" style="width: 240px;">
+                        <i class="bi bi-search position-absolute top-50 start-3 translate-middle-y text-muted fs-7"></i>
+                        <input type="text" id="search-bookings" class="admin-input search-focus-glow ps-5" placeholder="Search bookings...">
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-primary fs-7 px-3 py-1 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-download"></i> Export CSV
+                        </button>
+                        <div class="dropdown-menu p-3 bg-dark border-secondary" style="min-width: 250px;">
+                            <h6 class="text-white mb-2">Select Date Range</h6>
+                            <input type="date" id="export-start" class="form-control form-control-sm bg-dark text-white mb-2">
+                            <input type="date" id="export-end" class="form-control form-control-sm bg-dark text-white mb-2">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-sm btn-success" onclick="exportBookingsToCSV()">Export Data</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="table-responsive table-wrapper shadow-sm" >
+            <div class="table-responsive table-wrapper shadow-sm">
                 <table class="table-dark-custom">
                     <thead>
                         <tr>
@@ -139,14 +139,12 @@
 
         <!-- MODULE 3: ENQUIRIES PANEL -->
         <section id="view-enquiries" class="view-panel">
-            <!-- <h2 class="h4 text-white fw-light mb-4">Contact Enquiries Desk</h2> -->
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
                 <h2 class="h4 text-white fw-light mb-0">Contact Enquiry Desk</h2>
                 
-                <!-- Right-aligned Search Field Structure -->
                 <div class="position-relative" style="width: 240px;">
                     <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y text-muted ms-3 fs-7"></i>
-                    <input type="text" id="table-search-input" class="admin-input search-focus-glow ps-5" placeholder="Search bookings...">
+                    <input type="text" id="search-enquiries" class="admin-input search-focus-glow ps-5" placeholder="Search enquiries...">
                 </div>
             </div>
             <div class="table-responsive table-wrapper shadow-sm">
@@ -187,18 +185,15 @@
             </div>
             
             <div class="row g-4 flex-grow-1 overflow-hidden layout-gallery-row">
-                <!-- 📐 Showcase Matrix Box Frame (Left - 66% Fluid Width Layout) -->
                 <div class="col-lg-8 layout-gallery-showcase">
                     <div class="gallery-filters mb-3">
                         <button class="filter-btn active">All Media</button>
                         <button class="filter-btn">Images</button>
                         <button class="filter-btn">Videos</button>
                     </div>
-                    <!-- The dynamic portfolio row layout target engine -->
                     <div id="admin-gallery-display-grid"></div>
                 </div>
 
-                <!-- 📐 Inputs Controls Parameter Rail (Right - 33% Fluid Width Layout) -->
                 <div class="col-lg-4 layout-gallery-sidebar">
                     <form id="gallery-upload-form" enctype="multipart/form-data" class="d-grid gap-3">
                         <div class="upload-zone d-flex flex-column justify-content-center align-items-center p-4" 
@@ -249,11 +244,10 @@
             <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary border-opacity-10 pb-3" style="gap: 10px;">
                 <h2 class="h4 text-white font-serif mb-0"><i class="bi bi-journal-check text-success me-2"></i>Completed Bookings History</h2>
 
-                <!-- Add this wrapper inside your #view-bookings header element -->
                 <div class="d-flex align-items-center gap-3">
                     <div class="position-relative" style="width: 240px;">
                         <i class="bi bi-search position-absolute top-50 start-3 translate-middle-y text-muted fs-7"></i>
-                        <input type="text" id="table-search-input" class="admin-input search-focus-glow ps-5" placeholder="Search bookings...">
+                        <input type="text" id="search-completed" class="admin-input search-focus-glow ps-5" placeholder="Search completed...">
                     </div>
                 </div>
 
@@ -276,14 +270,14 @@
                             Estimate Revenue
                         </button>
                         <div class="dropdown-menu p-3 bg-dark border-secondary" style="min-width: 250px;">
-                            <h6 class="text-white mb-2">Happy to Hear, Click OK</h6>
+                            <h6 class="text-white mb-2">Select Target Month</h6>
                             <input type="month" id="export-month" class="form-control form-control-sm bg-dark text-white mb-2" onchange="calculateSelectedMonthRevenue()">
                             <div id="monthly-revenue-badge" class="p-2 mb-3 rounded bg-secondary bg-opacity-10 text-center d-none" style="border: 1px dashed rgba(255,255,255,0.1);">
                                 <span class="text-muted fs-8 text-uppercase d-block">Estimated Revenue</span>
                                 <strong id="selected-month-total" class="text-warning fs-5">₹0</strong>
                             </div>
                             <div class="d-grid gap-2">
-                                <button class="btn btn-sm btn-success" onclick="alert('Estimated Revenue Generated Successfully')">Done</button>
+                                <button class="btn btn-sm btn-success" onclick="alert('Estimated Revenue Calculated Successfully')">Done</button>
                             </div>
                         </div>
                     </div>
@@ -299,7 +293,7 @@
                             <th class="py-3">Event Details</th>
                             <th class="py-3">Event Date</th>
                             <th class="py-3">Guests</th>
-                            <th class="py-3">Requests</th> <!-- 🙈 Hidden dynamically via style mappings below -->
+                            <th class="py-3">Requests</th>
                             <th class="py-3">Financials (₹)</th>
                             <th class="py-3">Booking Status</th>
                             <th class="pe-4 py-3 text-end">Created At</th>
@@ -388,6 +382,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../api-integration.js"></script>
-    <script src="./admin.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>

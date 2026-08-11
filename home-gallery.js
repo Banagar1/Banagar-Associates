@@ -13,7 +13,7 @@ async function initHomepageGallery() {
     if (!grid) return;
 
     try {
-        const response = await fetch("http://localhost:8000/api/public/gallery");
+        const response = await fetch("/api/public/gallery");
         if (!response.ok) throw new Error("Database file stream failed.");
         
         const data = await response.json();
@@ -44,7 +44,7 @@ function renderHomeGalleryCards(items) {
     items.forEach(item => {
         // Safe string normalization ensuring a clean slash separator transition
         const cleanPath = item.media_url.startsWith("/") ? item.media_url : `/${item.media_url}`;
-        const fileUrl = `http://localhost:8000${cleanPath}`;
+        const fileUrl = cleanPath;
         
         const mediaTag = item.media_type === "image"
             ? `<img src="${fileUrl}" alt="${item.description || ''}" class="img-fluid gallery-asset" style="object-fit: cover; height: 100%; width: 100%;">`

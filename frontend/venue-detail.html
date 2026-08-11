@@ -167,7 +167,7 @@
     </section>
 
     <!-- footer section -->
- <footer class="footer-section pt-5 pb-3">
+<footer class="footer-section pt-5 pb-3">
     <div class="container pt-4">
         <div class="row g-4 mb-5">
             
@@ -260,10 +260,8 @@
 </footer>
 
     <script>
-        // ⚡ ENVIRONMENT SWITCH PIPELINE ENGINE
-        const BACKEND_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-            ? "http://localhost:8000"
-            : "https://banagar-associates-crm.onrender.com"; 
+        // ⚡ RELATIVE PATH PIPELINE ENGINE FOR PRODUCTION DEPLOYMENT
+        const BACKEND_URL = "/api"; 
 
         // Static Local Directory Vault
         const venueDatabase = {
@@ -309,7 +307,7 @@
             let isServerOnline = false;
 
             try {
-                const response = await fetch(`${BACKEND_URL}/api/public/gallery`);
+                const response = await fetch(`${BACKEND_URL}/public/gallery`);
                 if (response.ok) {
                     isServerOnline = true;
                     const allAssets = await response.json();
@@ -327,11 +325,10 @@
                         if (item.media_url.startsWith("http")) {
                             processedUrl = item.media_url;
                         } else {
-                            const cleanPath = item.media_url.startsWith('/') ? item.media_url.substring(1) : item.media_url;
-                            processedUrl = `${BACKEND_URL}/${cleanPath}`;
+                            const cleanPath = item.media_url.startsWith('/') ? item.media_url : `/${item.media_url}`;
+                            processedUrl = cleanPath;
                         }
-                        // Automatically forces secure SSL strings when loaded on production servers
-                        return window.location.protocol === "https:" ? processedUrl.replace("http://", "https://") : processedUrl;
+                        return processedUrl;
                     });
                 }
             } catch (err) {

@@ -159,22 +159,22 @@ const ApiService = {
     },
 
     async getCompletedBookings() {
-    // 👇 Grabbing the exact key you found! 👇
-    const myToken = localStorage.getItem('admin_token'); 
+        // 👇 Grabbing the exact key you found! 👇
+        const myToken = localStorage.getItem('admin_token'); 
 
-    const response = await fetch(`/api/admin/bookings/completed`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${myToken}` // Securely passing it to Python
+        const response = await fetch(`${BASE_URL}/admin/bookings/completed`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${myToken}` // Securely passing it to Python
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to load completed bookings history");
         }
-    });
-
-    if (!response.ok) {
-        throw new Error("Failed to load completed bookings history");
-    }
-    return response.json();
-},
+        return response.json();
+    },
     /**
      * Password updation by admin
      */
@@ -200,4 +200,3 @@ const ApiService = {
         window.location.href = "adminlogin.html"; // <--- CHANGE THIS LINE
     }
 };
-

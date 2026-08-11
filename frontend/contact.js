@@ -20,14 +20,18 @@ function showToast(message, type = "success") {
 }
 
 function showModernPopup(title, text, icon = 'success') {
-    Swal.fire({
-        title: title,
-        text: text,
-        icon: icon,
-        background: '#141923',
-        color: '#ffffff',
-        confirmButtonColor: '#0d6efd'
-    });
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            background: '#141923',
+            color: '#ffffff',
+            confirmButtonColor: '#0d6efd'
+        });
+    } else {
+        alert(`${title}: ${text}`);
+    }
 }
 
 // --- 2. FORM SUBMISSION ENGINE ---
@@ -41,12 +45,18 @@ document.addEventListener("DOMContentLoaded", () => {
             const submitButton = inquiryForm.querySelector("button[type='submit']");
             const originalButtonText = submitButton.innerHTML;
 
+            const nameInput = document.getElementById("user_name");
+            const phoneInput = document.getElementById("user_phone");
+            const emailInput = document.getElementById("user_email");
+            const dateInput = document.getElementById("event_date");
+            const messageInput = document.getElementById("user_message");
+
             const payload = {
-                name: document.getElementById("user_name").value.trim(),
-                phone: document.getElementById("user_phone").value.trim(),
-                email: document.getElementById("user_email").value.trim() || null,
-                event_date: document.getElementById("event_date").value || new Date().toISOString().split('T')[0],
-                message: document.getElementById("user_message").value.trim()
+                name: nameInput ? nameInput.value.trim() : "",
+                phone: phoneInput ? phoneInput.value.trim() : "",
+                email: (emailInput && emailInput.value.trim()) ? emailInput.value.trim() : null,
+                event_date: (dateInput && dateInput.value) ? dateInput.value : new Date().toISOString().split('T')[0],
+                message: messageInput ? messageInput.value.trim() : ""
             };
             
             try {

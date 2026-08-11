@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 await ApiService.adminLogin(email, password);
 
-               showModernPopup("Authentication verified! Redirecting to secure control board...");
+                showModernPopup("Authentication verified! Redirecting to secure control board...");
                 window.location.href = "admin.html";
 
             } catch (err) {
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- SECURE WORKSPACE DASHBOARD DATA SYNC PIPELINES (admin.html) ---
     if (window.location.pathname.includes("admin.html")) {
         if (!localStorage.getItem("admin_token")) {
-           showModernPopup("Access Denied: Invalid Security Session Token Context.");
+            showModernPopup("Access Denied: Invalid Security Session Token Context.");
             window.location.href = "adminlogin.html"; 
             return;
         }
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const saveBtn = document.getElementById("btn-save-profile");
 
                 if (newPassword.trim().length < 6) {
-                   showModernPopup("Security Exception: New password must be at least 6 characters long.");
+                    showModernPopup("Security Exception: New password must be at least 6 characters long.");
                     return;
                 }
 
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     await ApiService.updateAdminPassword({ new_password: newPassword });
 
-                   showModernPopup("Security context altered successfully! Please use your new password next time you login.");
+                    showModernPopup("Security context altered successfully! Please use your new password next time you login.");
                     document.getElementById("profile-password").value = ""; 
                     
                     const modalEl = document.getElementById('profileModal');
@@ -213,7 +213,6 @@ async function loadMasterBookingsTable() {
         const bookings = await ApiService.getAllBookings(); 
         window.globalBookings = bookings; 
 
-
         const generateRowHtml = (b) => {
             let badgeStyle = "bg-pending"; 
             if (b.booking_status === "Confirmed") badgeStyle = "bg-confirmed";
@@ -269,25 +268,23 @@ async function loadMasterBookingsTable() {
         }
 
         // --- RENDER DASHBOARD RECENT OVERVIEW TABLE SYSTEM ---
-if (recentTableBody) {
-    recentTableBody.innerHTML = "";
-    
-    // ⚡ RECENT ORDER FIX: Sort strictly by highest/newest ID first
-    const sortedRecentBookings = [...bookings].sort((a, b) => {
-        const idA = parseInt(a.id.replace("BA_", "")) || 0;
-        const idB = parseInt(b.id.replace("BA_", "")) || 0;
-        return idB - idA; // Newest sequential database entries float to the top
-    });
+        if (recentTableBody) {
+            recentTableBody.innerHTML = "";
+            
+            const sortedRecentBookings = [...bookings].sort((a, b) => {
+                const idA = parseInt(a.id.replace("BA_", "")) || 0;
+                const idB = parseInt(b.id.replace("BA_", "")) || 0;
+                return idB - idA;
+            });
 
-    // Isolate the top 10 most recent chronological entries
-    const recentSubset = sortedRecentBookings.slice(0, 10); 
-    
-    if (recentSubset.length === 0) {
-        recentTableBody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4">No recent booking activity.</td></tr>`;
-    } else {
-        recentSubset.forEach(b => { recentTableBody.insertAdjacentHTML("beforeend", generateRowHtml(b)); });
-    }
-}
+            const recentSubset = sortedRecentBookings.slice(0, 10); 
+            
+            if (recentSubset.length === 0) {
+                recentTableBody.innerHTML = `<tr><td colspan="10" class="text-center text-muted py-4">No recent booking activity.</td></tr>`;
+            } else {
+                recentSubset.forEach(b => { recentTableBody.insertAdjacentHTML("beforeend", generateRowHtml(b)); });
+            }
+        }
 
         if (typeof loadDashboardCalendar === 'function') {
             loadDashboardCalendar();
@@ -345,7 +342,8 @@ async function loadDashboardCalendar() {
 
     try {
         if (!window.cachedCalendarBookings) {
-            const response = await fetch("http://localhost:8000/api/public/booked-dates");
+            // ✅ Relative API Endpoint
+            const response = await fetch("/api/public/booked-dates");
             if (!response.ok) throw new Error("API tracking stream rejected connectivity.");
             window.cachedCalendarBookings = await response.json();
         }
@@ -384,24 +382,24 @@ async function loadDashboardCalendar() {
                 cellClass += " bg-danger bg-opacity-15 text-danger fw-medium cursor-pointer";
                 
                 activeBookingsOnDate.forEach(b => {
-                const rawVenueName = b.venue_type || b.venue_package || b.venue || "";
-                const targetVenueStr = String(rawVenueName).toLowerCase();
-                
-                if (targetVenueStr.trim() !== "") {
-                    let shortName = "Hall";
-                    let dotColor = "bg-info"; // Blue for Hall
+                    const rawVenueName = b.venue_type || b.venue_package || b.venue || "";
+                    const targetVenueStr = String(rawVenueName).toLowerCase();
+                    
+                    if (targetVenueStr.trim() !== "") {
+                        let shortName = "Hall";
+                        let dotColor = "bg-info";
 
-                    if (targetVenueStr.includes("combo")) {
-                        shortName = "Combo";
-                        dotColor = "bg-success text-white"; // Green for Combo
-                    } else if (targetVenueStr.includes("separate") || targetVenueStr.includes("lawn")) {
-                        shortName = "Lawn (A)";
-                        dotColor = "bg-warning"; // Yellow for Separate Lawn
+                        if (targetVenueStr.includes("combo")) {
+                            shortName = "Combo";
+                            dotColor = "bg-success text-white";
+                        } else if (targetVenueStr.includes("separate") || targetVenueStr.includes("lawn")) {
+                            shortName = "Lawn (A)";
+                            dotColor = "bg-warning";
+                        }
+
+                        indicatorDots += `<span class="badge ${dotColor} text-dark fs-9 px-1 d-block scale-90 mb-1" style="font-size: 10px; font-weight: 600;">${shortName}</span>`;
                     }
-
-                    indicatorDots += `<span class="badge ${dotColor} text-dark fs-9 px-1 d-block scale-90 mb-1" style="font-size: 10px; font-weight: 600;">${shortName}</span>`;
-                }
-            });
+                });
             }
 
             const cellHtml = `
@@ -419,7 +417,6 @@ async function loadDashboardCalendar() {
     }
 }
 
-// ⚡ EXPLICIT GLOBAL BINDING: Must be placed completely outside other functions!
 window.changeMonth = function(direction) {
     currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
     loadDashboardCalendar(); 
@@ -441,80 +438,75 @@ window.showCalendarBookingDetails = async function(dateString) {
         
         if (!dayBookings || dayBookings.length === 0) return;
         
-        // 🔎 Find the main modal container frame where the details live
         const modalBody = document.querySelector('#bookingModal .modal-body');
         if (!modalBody) return;
 
-        // Clear out old hardcoded template elements
         modalBody.innerHTML = "";
 
-        // Determine layout columns based on booking volume count
         const colClass = dayBookings.length > 1 ? "col-md-6 border-start border-secondary border-opacity-10 first-card-clean" : "col-12";
         
         let cardsHtml = `<div class="row g-4">`;
 
-dayBookings.forEach((booking) => {
-    let statusBadgeColor = "bg-warning text-dark"; 
-    if (booking.booking_status === "Confirmed") statusBadgeColor = "bg-primary text-white";
-    if (booking.booking_status === "Completed") statusBadgeColor = "bg-success text-white";
-    if (booking.booking_status === "Cancelled") statusBadgeColor = "bg-danger text-white";
+        dayBookings.forEach((booking) => {
+            let statusBadgeColor = "bg-warning text-dark"; 
+            if (booking.booking_status === "Confirmed") statusBadgeColor = "bg-primary text-white";
+            if (booking.booking_status === "Completed") statusBadgeColor = "bg-success text-white";
+            if (booking.booking_status === "Cancelled") statusBadgeColor = "bg-danger text-white";
 
-    const venueCleanName = String(booking.venue_type || "").toLowerCase();
-    
-    let shortBadgeName = "Marriage Hall";
-    let microBadgeColor = "bg-info text-dark";
+            const venueCleanName = String(booking.venue_type || "").toLowerCase();
+            
+            let shortBadgeName = "Marriage Hall";
+            let microBadgeColor = "bg-info text-dark";
 
-    if (venueCleanName.includes("combo")) {
-        shortBadgeName = "Full Combo (Comp B)";
-        microBadgeColor = "bg-success text-white";
-    } else if (venueCleanName.includes("separate") || venueCleanName.includes("lawn")) {
-        shortBadgeName = "Separate Lawn (Comp A)";
-        microBadgeColor = "bg-warning text-dark";
-    }
+            if (venueCleanName.includes("combo")) {
+                shortBadgeName = "Full Combo (Comp B)";
+                microBadgeColor = "bg-success text-white";
+            } else if (venueCleanName.includes("separate") || venueCleanName.includes("lawn")) {
+                shortBadgeName = "Separate Lawn (Comp A)";
+                microBadgeColor = "bg-warning text-dark";
+            }
 
-    cardsHtml += `
-        <div class="${colClass} p-3">
-                <div class="p-3 rounded" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);">
-                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-                        <span class="badge ${microBadgeColor} fw-semibold px-2 py-1 text-truncate" style="font-size: 10px; max-width: 140px;">${shortBadgeName}</span>
-                        <span class="text-info small fw-mono text-end" style="font-size: 11px;">#${booking.id}</span>
-                    </div>
-                    
-                    <div class="mb-2 text-wrap" style="word-break: break-word;">
-                        <label class="text-muted d-block uppercase tracking-wider mb-0" style="font-size: 9px; letter-spacing: 0.05em;">CLIENT NAME</label>
-                        <strong class="text-white d-block" style="font-size: 0.95rem;">${booking.customer_name}</strong>
-                    </div>
-                    
-                    <div class="mb-2 text-wrap" style="word-break: break-word;">
-                        <label class="text-muted d-block uppercase tracking-wider mb-0" style="font-size: 9px;">PHONE NUMBER</label>
-                        <span class="text-white d-block" style="font-size: 0.85rem;">${booking.phone}</span>
-                    </div>
-                    
-                    <div class="mb-2 text-wrap" style="word-break: break-word;">
-                        <label class="text-muted d-block uppercase tracking-wider mb-0" style="font-size: 9px;">EMAIL ADDRESS</label>
-                        <span class="text-light-muted d-block" style="font-size: 0.8rem; opacity: 0.8;">${booking.email || 'Not Provided'}</span>
-                    </div>
+            cardsHtml += `
+                <div class="${colClass} p-3">
+                    <div class="p-3 rounded" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);">
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                            <span class="badge ${microBadgeColor} fw-semibold px-2 py-1 text-truncate" style="font-size: 10px; max-width: 140px;">${shortBadgeName}</span>
+                            <span class="text-info small fw-mono text-end" style="font-size: 11px;">#${booking.id}</span>
+                        </div>
+                        
+                        <div class="mb-2 text-wrap" style="word-break: break-word;">
+                            <label class="text-muted d-block uppercase tracking-wider mb-0" style="font-size: 9px; letter-spacing: 0.05em;">CLIENT NAME</label>
+                            <strong class="text-white d-block" style="font-size: 0.95rem;">${booking.customer_name}</strong>
+                        </div>
+                        
+                        <div class="mb-2 text-wrap" style="word-break: break-word;">
+                            <label class="text-muted d-block uppercase tracking-wider mb-0" style="font-size: 9px;">PHONE NUMBER</label>
+                            <span class="text-white d-block" style="font-size: 0.85rem;">${booking.phone}</span>
+                        </div>
+                        
+                        <div class="mb-2 text-wrap" style="word-break: break-word;">
+                            <label class="text-muted d-block uppercase tracking-wider mb-0" style="font-size: 9px;">EMAIL ADDRESS</label>
+                            <span class="text-light-muted d-block" style="font-size: 0.8rem; opacity: 0.8;">${booking.email || 'Not Provided'}</span>
+                        </div>
 
-                    <div class="mb-3 text-wrap" style="word-break: break-word;">
-                        <label class="text-muted d-block uppercase tracking-wider mb-0" style="font-size: 9px;">EVENT DATE & TYPE</label>
-                        <span class="text-white d-block" style="font-size: 0.8rem;">
-                            ${booking.event_date} — <span class="text-gold fw-medium">${booking.event_type || 'General'}</span>
-                        </span>
+                        <div class="mb-3 text-wrap" style="word-break: break-word;">
+                            <label class="text-muted d-block uppercase tracking-wider mb-0" style="font-size: 9px;">EVENT DATE & TYPE</label>
+                            <span class="text-white d-block" style="font-size: 0.8rem;">
+                                ${booking.event_date} — <span class="text-gold fw-medium">${booking.event_type || 'General'}</span>
+                            </span>
+                        </div>
+                        
+                        <div class="d-flex flex-wrap gap-2 mt-3 pt-2 border-top border-secondary border-opacity-10">
+                            <span class="badge ${statusBadgeColor} rounded-1 px-2 py-1 fs-8 uppercase" style="font-size: 10px;">${booking.booking_status}</span>
+                            <span class="badge bg-dark border border-secondary border-opacity-20 text-muted px-2 py-1 fs-8" style="font-size: 10px;">${booking.guest_count || 0} Guests</span>
+                        </div>
                     </div>
-                    
-                    <div class="d-flex flex-wrap gap-2 mt-3 pt-2 border-top border-secondary border-opacity-10">
-                        <span class="badge ${statusBadgeColor} rounded-1 px-2 py-1 fs-8 uppercase" style="font-size: 10px;">${booking.booking_status}</span>
-                        <span class="badge bg-dark border border-secondary border-opacity-20 text-muted px-2 py-1 fs-8" style="font-size: 10px;">${booking.guest_count || 0} Guests</span>
-                    </div>
-                </div>
-            </div>`;
-    });
+                </div>`;
+        });
         cardsHtml += `</div>`;
         
-        // Inject the newly generated card designs directly into your modal framework
         modalBody.innerHTML = cardsHtml;
         
-        // Remove the hard border line separator from the very first column card element
         const firstCardFix = modalBody.querySelector('.first-card-clean');
         if (firstCardFix) firstCardFix.classList.remove('border-start');
 
@@ -542,7 +534,10 @@ async function loadAdminGalleryManager() {
         }
 
         assets.forEach(item => {
-           const fileUrl = `http://localhost:8000${item.media_type.startsWith('/') ? '' : ''}${item.media_url}`;
+            // ✅ Relative URL for assets
+            const cleanPath = item.media_url.startsWith('/') ? item.media_url : `/${item.media_url}`;
+            const fileUrl = cleanPath;
+
             const mediaTemplate = item.media_type === "image" 
                 ? `<img src="${fileUrl}" alt="Gallery Asset" class="img-fluid" style="object-fit: cover; height: 100%; width: 100%;">` 
                 : `<video src="${fileUrl}" muted class="w-100" style="object-fit: cover; height: 100%;"></video>`;
@@ -830,7 +825,7 @@ async function exportMonthlyBookingsToCSV() {
 
         const filteredBookings = allBookings.filter(b => {
             if (!b.event_date) return false;
-           return b.event_date.startsWith(monthInput) && b.booking_status === "Completed";
+            return b.event_date.startsWith(monthInput) && b.booking_status === "Completed";
         });
 
         if (filteredBookings.length === 0) {
@@ -931,30 +926,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     filterButtons.forEach(button => {
         button.addEventListener("click", function () {
-            // 1. Swap active tab styling class
             filterButtons.forEach(btn => btn.classList.remove("active"));
             this.classList.add("active");
 
-            // 2. Identify selected filter criteria ('all media', 'images', or 'videos')
             const filterText = this.textContent.trim().toLowerCase();
-
-            // 3. Locate all dynamic gallery asset wrappers injected into the display grid
             const galleryGrid = document.getElementById("admin-gallery-display-grid");
             if (!galleryGrid) return;
             
-            // Grabs the outer container columns (the items targeted by the 33.33% CSS)
             const assetCards = galleryGrid.children;
 
             Array.from(assetCards).forEach(cardWrapper => {
-                // Find the inner card layout instance
                 const innerCard = cardWrapper.querySelector(".gallery-admin-card");
                 if (!innerCard) return;
 
-                // Detect what structural element was generated inside the card
                 const hasImage = innerCard.querySelector("img") !== null;
                 const hasVideo = innerCard.querySelector("video") !== null;
 
-                // 4. Toggle visibility grid layout boxes smoothly
                 if (filterText === "all media") {
                     cardWrapper.style.setProperty("display", "block", "important");
                 } else if (filterText === "images") {
@@ -976,18 +963,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --- 🔍 UNIFIED GLOBAL TABLE SEARCH ENGINE ---
-        document.addEventListener("input", (e) => {
-            if (e.target && e.target.classList.contains("search-focus-glow")) {
-                const query = e.target.value.toLowerCase().trim();
-                const activePanel = e.target.closest(".view-panel");
-                if (!activePanel) return;
+document.addEventListener("input", (e) => {
+    if (e.target && e.target.classList.contains("search-focus-glow")) {
+        const query = e.target.value.toLowerCase().trim();
+        const activePanel = e.target.closest(".view-panel");
+        if (!activePanel) return;
 
-                // Find any table bodies dynamically inside the currently open view panel
-                const tableBodies = activePanel.querySelectorAll("tbody");
-                tableBodies.forEach(body => {
-                    Array.from(body.rows).forEach(row => {
-                        row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
-                    });
-                });
-            }
+        const tableBodies = activePanel.querySelectorAll("tbody");
+        tableBodies.forEach(body => {
+            Array.from(body.rows).forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
+            });
         });
+    }
+});

@@ -7,215 +7,202 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../index.css">
-    <link rel="stylesheet" href="index.css"> 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Stepping up to root for index.css -->
+    <link rel="stylesheet" href="../index.css"> 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
     
     .contact-nav-pill {
-    border: 1px solid #448eea;
-    border-radius: 20px;
-    color: #ffffff !important;
-}
-
-/* Left Column Info Chips Layout Box */
-    .contact-info-chip {
-    background-color: #1b2333; /* Rich deep navy box envelope wrapper */
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    transition: background-color 0.2s ease;
-}
-
-.contact-info-chip:hover {
-    background-color: #1e293a !important;
-}
-
-.chip-icon-box {
-    width: 42px;
-    height: 42px;
-    background-color:rgb(142, 142, 244);
-    border: 1px solid rgba(68, 142, 234, 0.15);
-    font-size: 1.1rem;
-    border-radius: 30%;
-}
-
-/* Main column Left Map Display dimensions */
-.contact-page-map {
-    width: 100%;
-    height: 250px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.contact-page-map iframe {
-    filter: grayscale(1) invert(0.92) contrast(1.1) brightness(0.95);
-}
-
-/* Right Column Contact Form Wrap Background Box */
-.contact-form-container {
-    background-color: #1b2333 !important; /* Solid matte finish contrast container */
-    border: 1px solid rgba(255, 255, 255, 0.02);
-}
-
-/* Custom Minimalist Flat Line Input Field Engine */
-.input-field-group {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.form-label-custom {
-    font-size: 0.68rem !important;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    color: #fcfcfc; /* Hard low contrast grey text matching image layout */
-    margin-bottom: 6px;
-    text-transform: uppercase;
-}
-
-.form-input-minimal {
-    width: 100%;
-    background-color: transparent !important;
-    border: none !important;
-    border-bottom: 1px solid rgb(51, 51, 105) !important;
-    padding: 8px 0px !important;
-    font-size: 0.88rem !important;
-    font-weight: 300;
-    outline: none !important;
-    border-radius: 0 !important;
-    transition: border-color 0.25s ease;
-}
-
-/* Active Highlight Interaction line state */
-.form-input-minimal:focus {
-    border-color: #448eea !important;
-}
-
-/* Forces browser native dark-mode calendar dropdown support mapping */
-.color-scheme-dark {
-    color-scheme: dark;
-}
-
-/* Textarea line adjustment controls */
-textarea.form-input-minimal {
-    resize: none;
-}
-
-/* mobile responsive view */
-
-/* 1. TABLETS & SMALL DESKTOPS (Max-width: 991.98px) */
-@media (max-width: 991.98px) {
-    /* Resets the navbar pill behavior on responsive collapse menus */
-    .contact-nav-pill {
-        border: none !important;
-        border-left: 2px solid var(--primary-blue) !important;
-        border-radius: 0 !important;
-        padding-left: 15px !important;
+        border: 1px solid #448eea;
+        border-radius: 20px;
+        color: #ffffff !important;
     }
 
-    /* Strips oversized padding to let content breathe on medium viewports */
-    .contact-form-container {
-        padding: 30px !important;
-    }
-}
-
-/* 2. SMARTPHONES / PORTRAIT MOBILE VIEWS (Max-width: 767.98px) */
-@media (max-width: 767.98px) {
-    
-    /* Compresses informational chips to fit cleanly in narrow layouts */
+    /* Left Column Info Chips Layout Box */
     .contact-info-chip {
-        padding: 12px 15px !important;
-        gap: 12px !important;
+        background-color: #1b2333; /* Rich deep navy box envelope wrapper */
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        transition: background-color 0.2s ease;
+    }
+
+    .contact-info-chip:hover {
+        background-color: #1e293a !important;
     }
 
     .chip-icon-box {
-        width: 36px !important; /* Scales icons down slightly */
-        height: 36px !important;
-        font-size: 0.95rem !important;
-        flex-shrink: 0; /* Prevents icons from squishing if text wraps long */
+        width: 42px;
+        height: 42px;
+        background-color:rgb(142, 142, 244);
+        border: 1px solid rgba(68, 142, 234, 0.15);
+        font-size: 1.1rem;
+        border-radius: 30%;
     }
 
-    /* Adjusts detail typography sizing for compact touchscreens */
-    .contact-info-chip h6 {
-        font-size: 0.8rem !important;
-        line-height: 1.4 !important;
-    }
-
-    /* Enhances the Map element interactive space */
+    /* Main column Left Map Display dimensions */
     .contact-page-map {
-        height: 200px !important; /* Reduces vertical footprint while remaining usable */
-        margin-top: 10px !important;
+        width: 100%;
+        height: 250px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
     }
 
-    /* Adjusts Form Wrap Padding spacing rules */
+    .contact-page-map iframe {
+        filter: grayscale(1) invert(0.92) contrast(1.1) brightness(0.95);
+    }
+
+    /* Right Column Contact Form Wrap Background Box */
     .contact-form-container {
-        padding: 24px 20px !important;
-        margin-top: 15px; /* Ensures space when columns stack vertically */
+        background-color: #1b2333 !important; /* Solid matte finish contrast container */
+        border: 1px solid rgba(255, 255, 255, 0.02);
     }
 
-    /* Form Fields spacing configuration overrides */
+    /* Custom Minimalist Flat Line Input Field Engine */
     .input-field-group {
-        margin-bottom: 25px !important; /* Keeps an uniform separation when viewing single-file fields */
+        position: relative;
+        display: flex;
+        flex-direction: column;
     }
 
     .form-label-custom {
-        font-size: 0.65rem !important;
-        margin-bottom: 4px !important;
+        font-size: 0.68rem !important;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        color: #fcfcfc; /* Hard low contrast grey text matching image layout */
+        margin-bottom: 6px;
+        text-transform: uppercase;
     }
 
     .form-input-minimal {
-        padding: 6px 0px !important;
-        font-size: 0.85rem !important;
+        width: 100%;
+        background-color: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid rgb(51, 51, 105) !important;
+        padding: 8px 0px !important;
+        font-size: 0.88rem !important;
+        font-weight: 300;
+        outline: none !important;
+        border-radius: 0 !important;
+        transition: border-color 0.25s ease;
     }
-}
 
-/* 3. EXTRA SMALL DEVICES (Max-width: 375px) */
-@media (max-width: 375px) {
-    /* Prevents long emails or addresses from wrapping into layout chaos */
-    .contact-info-chip h6 {
-        font-size: 0.75rem !important;
+    /* Active Highlight Interaction line state */
+    .form-input-minimal:focus {
+        border-color: #448eea !important;
     }
-    
-    .contact-form-container {
-        padding: 20px 15px !important;
+
+    /* Forces browser native dark-mode calendar dropdown support mapping */
+    .color-scheme-dark {
+        color-scheme: dark;
     }
-}
 
-/* ==========================================================================
-   🔔 PUBLIC CONTACT PAGE TOAST ALERTS VISIBILITY FIX
-   ========================================================================== */
-#toast-container {
-    position: fixed;
-    top: 24px;
-    right: 24px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+    /* Textarea line adjustment controls */
+    textarea.form-input-minimal {
+        resize: none;
+    }
 
-.toast-card {
-    background: #1e293b !important; /* Matte Slate Surface matching the theme */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #ffffff !important;
-    padding: 14px 24px;
-    border-radius: 4px;
-    min-width: 280px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.85rem;
-    animation: slideInToast 0.3s ease-out forwards;
-}
+    /* mobile responsive view */
 
-/* Success and Error indicator status accents */
-.toast-success { border-left: 4px solid #10b981 !important; }
-.toast-error { border-left: 4px solid #ef4444 !important; }
+    /* 1. TABLETS & SMALL DESKTOPS (Max-width: 991.98px) */
+    @media (max-width: 991.98px) {
+        .contact-nav-pill {
+            border: none !important;
+            border-left: 2px solid var(--primary-blue) !important;
+            border-radius: 0 !important;
+            padding-left: 15px !important;
+        }
 
-@keyframes slideInToast {
-    from { transform: translateX(120%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
+        .contact-form-container {
+            padding: 30px !important;
+        }
+    }
+
+    /* 2. SMARTPHONES / PORTRAIT MOBILE VIEWS (Max-width: 767.98px) */
+    @media (max-width: 767.98px) {
+        .contact-info-chip {
+            padding: 12px 15px !important;
+            gap: 12px !important;
+        }
+
+        .chip-icon-box {
+            width: 36px !important; 
+            height: 36px !important;
+            font-size: 0.95rem !important;
+            flex-shrink: 0; 
+        }
+
+        .contact-info-chip h6 {
+            font-size: 0.8rem !important;
+            line-height: 1.4 !important;
+        }
+
+        .contact-page-map {
+            height: 200px !important; 
+            margin-top: 10px !important;
+        }
+
+        .contact-form-container {
+            padding: 24px 20px !important;
+            margin-top: 15px; 
+        }
+
+        .input-field-group {
+            margin-bottom: 25px !important; 
+        }
+
+        .form-label-custom {
+            font-size: 0.65rem !important;
+            margin-bottom: 4px !important;
+        }
+
+        .form-input-minimal {
+            padding: 6px 0px !important;
+            font-size: 0.85rem !important;
+        }
+    }
+
+    /* 3. EXTRA SMALL DEVICES (Max-width: 375px) */
+    @media (max-width: 375px) {
+        .contact-info-chip h6 {
+            font-size: 0.75rem !important;
+        }
+        
+        .contact-form-container {
+            padding: 20px 15px !important;
+        }
+    }
+
+    /* PUBLIC CONTACT PAGE TOAST ALERTS VISIBILITY FIX */
+    #toast-container {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .toast-card {
+        background: #1e293b !important;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #ffffff !important;
+        padding: 14px 24px;
+        border-radius: 4px;
+        min-width: 280px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.85rem;
+        animation: slideInToast 0.3s ease-out forwards;
+    }
+
+    .toast-success { border-left: 4px solid #10b981 !important; }
+    .toast-error { border-left: 4px solid #ef4444 !important; }
+
+    @keyframes slideInToast {
+        from { transform: translateX(120%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
 
     </style>
 
@@ -224,7 +211,7 @@ textarea.form-input-minimal {
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top py-3">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#home">
+            <a class="navbar-brand d-flex align-items-center" href="../index.html">
                 <div class="brand-logo me-2"><img src="../assets/images/logo-01.png" alt="Banagar Associates Logo"></div>
                 <div class="brand-text">   
                 </div>
@@ -234,16 +221,16 @@ textarea.form-input-minimal {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-3">
-                    <li class="nav-item"><a class="nav-link active" href="../index.html">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.html">HOME</a></li>
                     <li class="nav-item"><a class="nav-link" href="../index.html#venues">VENUES</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../index.html#gallery">GALLERY</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">GALLERY</a></li>
                     <li class="nav-item"><a class="nav-link" href="../index.html#trust">WHY TRUST US</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">CONTACT</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../frontend/about.html">ABOUT US</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="contact.html">CONTACT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">ABOUT US</a></li>
                 </ul>
                 <div class="d-flex align-items-center gap-3">
-                    <a href="tel:+911234567890" class="text-white text-decoration-none fs-6 d-none d-xl-inline"><i class="bi bi-telephone text-primary me-2"></i>CALL US</a>
-                    <a href="./booking.html" class="btn btn-primary px-4 py-2 fw-semibold tracking-wide rounded-0">BOOK NOW</a>
+                    <a href="tel:+919945899909" class="text-white text-decoration-none fs-6 d-none d-xl-inline"><i class="bi bi-telephone text-primary me-2"></i>CALL US</a>
+                    <a href="booking.html" class="btn btn-primary px-4 py-2 fw-semibold tracking-wide rounded-0">BOOK NOW</a>
                 </div>
             </div>
         </div>
@@ -368,100 +355,98 @@ textarea.form-input-minimal {
         </div>
     </main>
 
-   <!-- footer section -->
- <footer class="footer-section pt-5 pb-3">
-    <div class="container pt-4">
-        <div class="row g-4 mb-5">
-            
-            <div class="col-sm-6 col-lg-3">
-                <div class="footer-brand mb-4">
-                    <img src="../assets/images/logo-01.png" alt="Banagar Associates Logo" class="footer-logo mb-2" onerror="this.style.display='none'; document.getElementById('fallback-logo').classList.remove('d-none');">
-                    <div id="fallback-logo" class="d-flex align-items-center d-none">
-                        <div class="brand-logo me-2">B</div>
-                        <span class="fw-bold tracking-wide text-white fs-5">BANAGAR</span>
+    <!-- footer section -->
+    <footer class="footer-section pt-5 pb-3">
+        <div class="container pt-4">
+            <div class="row g-4 mb-5">
+                
+                <div class="col-sm-6 col-lg-3">
+                    <div class="footer-brand mb-4">
+                        <img src="../assets/images/logo-01.png" alt="Banagar Associates Logo" class="footer-logo mb-2" onerror="this.style.display='none'; document.getElementById('fallback-logo').classList.remove('d-none');">
+                        <div id="fallback-logo" class="d-flex align-items-center d-none">
+                            <div class="brand-logo me-2">B</div>
+                            <span class="fw-bold tracking-wide text-white fs-5">BANAGAR</span>
+                        </div>
+                    </div>
+                    <p class="text-light-muted fs-7 lh-lg pe-xl-4 footer-desc">
+                        Creating memorable celebrations through exceptional event spaces and quality facilities. Premier venue for weddings and celebrations. Creating unforgettable moments since 2010.
+                    </p>
+                </div>
+
+                <div class="col-sm-6 col-lg-2 offset-lg-1">
+                    <h4 class="h5 text-white font-serif mb-4 fw-normal tracking-wide">Quick Links</h4>
+                    <ul class="list-unstyled footer-links d-grid gap-3 fs-7">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="../index.html#venues">Banagar Lawns</a></li>
+                        <li><a href="../index.html#venues">Marriage Hall</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="booking.html">Book Now</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <h4 class="h5 text-white font-serif mb-4 fw-normal tracking-wide">Contact Info</h4>
+                    <ul class="list-unstyled footer-contact-list d-grid gap-3 fs-7 text-light-muted">
+                        <li class="d-flex align-items-start gap-3">
+                            <i class="bi bi-geo-alt text-primary mt-1"></i>
+                            <span>94HQ+C42 Banagar estate, Rajnagar, Gopanakoppa,Hubblli<br>Karnataka 580023</span>
+                        </li>
+                        <li class="d-flex align-items-center gap-3">
+                            <i class="bi bi-telephone text-primary"></i>
+                            <a href="tel:+919945899909" class="text-decoration-none text-light-muted">+91 9945899909</a>
+                        </li>
+                        <li class="d-flex align-items-center gap-3">
+                            <i class="bi bi-envelope text-primary"></i>
+                            <a href="mailto:info@banagar.com" class="text-decoration-none text-light-muted">info@banagar.com</a>
+                        </li>
+                        <li class="d-flex align-items-center gap-3">
+                            <i class="bi bi-clock text-primary"></i>
+                            <span>Mon - Sun: 9:00 AM - 8:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <h4 class="h5 text-white font-serif mb-4 fw-normal tracking-wide">Find Us</h4>
+                    <div class="footer-map-container position-relative overflow-hidden shadow">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3846.9724003925885!2d75.138004!3d15.377981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb8d1003dc4c92d%3A0x5009ed865c5d8867!2sBanagar%20Lawns!5e0!3m2!1sen!2sin!4v1784303556619!5m2!1sen!2sin" 
+                        width="600" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="strict-origin-when-cross-origin">
+                        </iframe>
                     </div>
                 </div>
-                <p class="text-light-muted fs-7 lh-lg pe-xl-4 footer-desc">
-                    Creating memorable celebrations through exceptional event spaces and quality facilities. Premier venue for weddings and celebrations. Creating unforgettable moments since 2010.
-                </p>
+
             </div>
 
-            <div class="col-sm-6 col-lg-2 offset-lg-1">
-                <h4 class="h5 text-white font-serif mb-4 fw-normal tracking-wide">Quick Links</h4>
-                <ul class="list-unstyled footer-links d-grid gap-3 fs-7">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#venues">Banagar Lawns</a></li>
-                    <li><a href="#venue-catalog">Marriage Hall</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#venues">Book Now</a></li>
-                </ul>
-            </div>
+            <hr class="border-secondary border-opacity-10 my-4">
 
-            <div class="col-sm-6 col-lg-3">
-                <h4 class="h5 text-white font-serif mb-4 fw-normal tracking-wide">Contact Info</h4>
-                <ul class="list-unstyled footer-contact-list d-grid gap-3 fs-7 text-light-muted">
-                    <li class="d-flex align-items-start gap-3">
-                        <i class="bi bi-geo-alt text-primary mt-1"></i>
-                        <span>94HQ+C42 Banagar estate, Rajnagar, Gopanakoppa,Hubblli<br>Karnataka 580023</span>
-                    </li>
-                    <li class="d-flex align-items-center gap-3">
-                        <i class="bi bi-telephone text-primary"></i>
-                        <a href="tel:+919945899909" class="text-decoration-none text-light-muted">+91 9945899909</a>
-                    </li>
-                    <li class="d-flex align-items-center gap-3">
-                        <i class="bi bi-envelope text-primary"></i>
-                        <a href="mailto:info@banagar.com" class="text-decoration-none text-light-muted">info@banagar.com</a>
-                    </li>
-                    <li class="d-flex align-items-center gap-3">
-                        <i class="bi bi-clock text-primary"></i>
-                        <span>Mon - Sun: 9:00 AM - 8:00 PM</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-sm-6 col-lg-3">
-                <h4 class="h5 text-white font-serif mb-4 fw-normal tracking-wide">Find Us</h4>
-                <div class="footer-map-container position-relative overflow-hidden shadow">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3846.9724003925885!2d75.138004!3d15.377981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb8d1003dc4c92d%3A0x5009ed865c5d8867!2sBanagar%20Lawns!5e0!3m2!1sen!2sin!4v1784303556619!5m2!1sen!2sin" 
-                    width="600" 
-                    height="450" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="strict-origin-when-cross-origin">
-                    </iframe>
+            <div class="row align-items-center fs-7 text-white g-3">
+                <div class="col-md-4 text-center text-md-start">
+                    <p class="mb-0">&copy; 2026 Banagar Associates. All rights reserved.</p>
+                </div>
+                
+                <div class="col-md-4 text-center text-md-center">
+                    <p class="mb-0">Designed & Developed by NeuNet Tech Solutions</p>
+                </div>
+                
+                <div class="col-md-4 text-center text-md-end">
+                    <div class="d-flex justify-content-center justify-content-md-end gap-3 sub-footer-links">
+                        <a href="adminlogin.html" class="text-white text-decoration-none">Admin</a>
+                        <a href="../privacy.html" class="text-white text-decoration-none">Privacy Policy</a>
+                        <a href="../terms.html" class="text-white text-decoration-none">Terms of Service</a>
+                    </div>
                 </div>
             </div>
-
         </div>
+    </footer>
 
-        <hr class="border-secondary border-opacity-10 my-4">
-
-        <div class="row align-items-center fs-7 text-white g-3">
-    <!-- 🟢 Left: Copyright (Takes 4 columns, left-aligned on desktop) -->
-    <div class="col-md-4 text-center text-md-start">
-        <p class="mb-0">&copy; 2026 Banagar Associates. All rights reserved.</p>
-    </div>
-    
-    <!-- 🟢 Center: Developer Credits (Takes 4 columns, centered everywhere) -->
-    <div class="col-md-4 text-center text-md-center">
-        <p class="mb-0">Designed & Developed by NeuNet Tech Solutions</p>
-    </div>
-    
-    <!-- 🟢 Right: Links (Takes 4 columns, right-aligned on desktop) -->
-    <div class="col-md-4 text-center text-md-end">
-        <div class="d-flex justify-content-center justify-content-md-end gap-3 sub-footer-links">
-            <a href="adminlogin.html" class="text-white text-decoration-none">Admin</a>
-            <a href="../privacy.html" class="text-white text-decoration-none">Privacy Policy</a>
-            <a href="../terms.html" class="text-white text-decoration-none">Terms of Service</a>
-        </div>
-    </div>
-</div>
-    </div>
-</footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../api-integration.js"></script>
-    <script src="contact.js"></script>  </body>
+    <script src="contact.js"></script>
 </body>
 </html>

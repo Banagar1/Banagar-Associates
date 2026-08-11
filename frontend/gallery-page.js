@@ -9,11 +9,13 @@ async function initFullGalleryPage() {
     if (!grid) return;
 
     try {
-        const response = await fetch("http://localhost:8000/api/public/gallery");
+        // ✅ Updated: Relative path for API
+        const response = await fetch("/api/public/gallery");
         if (!response.ok) throw new Error("Database file stream failed.");
         
         const data = await response.json();
-        galleryPageCachedMedia = data;
+        // Optional: reverse to show newest uploads first
+        galleryPageCachedMedia = data.reverse();
         
         renderFullGalleryCards(galleryPageCachedMedia);
 
@@ -35,8 +37,9 @@ function renderFullGalleryCards(items) {
     }
 
     items.forEach(item => {
+        // ✅ Updated: Relative path for media assets
         const cleanPath = item.media_url.startsWith("/") ? item.media_url : `/${item.media_url}`;
-        const fileUrl = `http://localhost:8000${cleanPath}`;
+        const fileUrl = cleanPath;
         
         const mediaTag = item.media_type === "image"
             ? `<img src="${fileUrl}" alt="${item.description || ''}" class="img-fluid gallery-asset" style="object-fit: cover; height: 100%; width: 100%;">`
@@ -66,8 +69,9 @@ function renderFullGalleryCards(items) {
     });
 }
 
-window.filterFullGallery = function(targetType, btnElement) {
-    const buttons = document.querySelectorAll("#gallery-page-filter-controls .btn");
+// ✅ Updated filter function matching both homepage and gallery control IDs
+window.filterHomeGallery = window.filterFullGallery = function(targetType, btnElement) {
+    const buttons = document.querySelectorAll("#homepage-gallery-filter-controls .btn, #gallery-page-filter-controls .btn");
     buttons.forEach(b => b.classList.remove("active-g-filter"));
     if (btnElement) btnElement.classList.add("active-g-filter");
 

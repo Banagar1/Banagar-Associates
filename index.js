@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             assets.forEach(item => {
-                const fullMediaUrl = `http://localhost:8000${item.media_url}`;
+                const fullMediaUrl = item.media_url;
                 const filterCategory = item.media_type === "image" ? "photos" : "videos";
 
                 let mediaHtml = '';
